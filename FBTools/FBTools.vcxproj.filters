@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{2a06d197-a006-4ce9-8312-0ad792ac568e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Util">
+      <UniqueIdentifier>{7aaaf1e8-abf1-4606-8f3c-655a92e77fb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Actions">
+      <UniqueIdentifier>{357ff6f5-eefd-4223-895d-a7b85ea90985}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sdk">
+      <UniqueIdentifier>{3148efdd-e0f9-4130-8463-310dba7bbc0f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Sdk\2014.4">
+      <UniqueIdentifier>{2d3cd856-18c6-45b3-becb-035389b3557d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Action">
+      <UniqueIdentifier>{7672adf1-eaff-46d9-8555-605b0d2f9178}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Frostbite">
+      <UniqueIdentifier>{8d9e3f90-7868-4991-a7d9-2e97a6456fab}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="FBTools.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Util\Common.h">
+      <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Segment.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Pattern.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Plugin.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Actions\FindTypeInfo.h">
+      <Filter>Header Files\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionBase.h">
+      <Filter>Header Files\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="ActionManager.h">
+      <Filter>Header Files\Action</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\FrostbiteUtil.h">
+      <Filter>Header Files\Frostbite</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\TypeinfoBase.h">
+      <Filter>Header Files\Frostbite</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\BasicTypesEnum.h">
+      <Filter>Header Files\Sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\MemberInfoFlags.h">
+      <Filter>Header Files\Sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\2014.4\MemberInfo.h">
+      <Filter>Header Files\Sdk\2014.4</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\2014.4\TypeInfo.h">
+      <Filter>Header Files\Sdk\2014.4</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\ModuleInfo.h">
+      <Filter>Header Files\Sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\2014.4\FieldInfo.h">
+      <Filter>Header Files\Sdk\2014.4</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\2014.4\ValueTypeInfo.h">
+      <Filter>Header Files\Sdk\2014.4</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\2014.4\ClassInfo.h">
+      <Filter>Header Files\Sdk\2014.4</Filter>
+    </ClInclude>
+    <ClInclude Include="Util\MemoryPointer.h">
+      <Filter>Header Files\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Actions\RenameTypeInfo.h">
+      <Filter>Header Files\Actions</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Notes.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+  </ItemGroup>
+</Project>
