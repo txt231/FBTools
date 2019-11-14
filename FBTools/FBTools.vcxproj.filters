@@ -94,6 +94,21 @@
     <ClInclude Include="Actions\RenameTypeInfo.h">
       <Filter>Header Files\Actions</Filter>
     </ClInclude>
+    <ClInclude Include="Actions\CreateTypes.h">
+      <Filter>Header Files\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Actions\RenameMessages.h">
+      <Filter>Header Files\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\Hash.h">
+      <Filter>Header Files\Sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="Actions\FindMessageHandlers.h">
+      <Filter>Header Files\Actions</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\FBType.h">
+      <Filter>Header Files\Frostbite</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="Notes.txt" />

@@ -35,12 +35,12 @@ namespace fb
 
 		enum Flags
 		{
-			MIFF_Metadata = 0x800,
-			MIFF_Homogeneous = 0x1000,
-			MIFF_AllwaysPersist = 0x2000,
-			MIFF_Exposed = 0x2000,
-			MIFF_LayoutImmutable = 0x4000,
-			MIFF_Blittable = 0x8000,
+			MIFF_Metadata = ( 1 << 11),
+			MIFF_Homogeneous = (1 << 12),
+			MIFF_AllwaysPersist = (1 << 13),
+			MIFF_Exposed = ( 1 << 13 ),
+			MIFF_LayoutImmutable = ( 1 << 14 ),
+			MIFF_Blittable = ( 1 << 15 ),
 		};
 
 		uint16_t m_Flags; //0x0000

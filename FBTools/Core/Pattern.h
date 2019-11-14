@@ -5,6 +5,8 @@
 #include <search.hpp>
 #include <allins.hpp>
 
+
+
 #include <vector> 
 
 namespace Core
@@ -94,46 +96,6 @@ namespace Core
 	ea_t ScanPattern( PatternInternal::PatternInfo& info )
 	{
 
-		/*
-		{
-
-			compiled_binpat_vec_t Test;
-
-			if ( parse_binpat_str( &Test,
-								   0,
-								   "48 C7 43 ? ? ? ? ? 48 8B 05 ? ? ? ? 48 89 43 08",
-								   16 ) )
-			{
-				msg( "[+] Parsed test pattern to:\n" );
-
-
-
-				for ( auto& BinPat : Test )
-				{
-					msg( "\tBytes:\n" );
-
-
-					for ( auto& Byte : BinPat.bytes )
-						msg( "%02X ", Byte );
-
-					msg( "\n" );
-
-					msg( "\tMask:\n" );
-
-
-					for ( auto& Byte : BinPat.mask )
-						msg( "%02X(%c) ", Byte, ( char )Byte );
-
-					msg( "\n" );
-				}
-			}
-			else
-			{
-				msg( "[!] Failed to parse test pattern!\n" );
-			}
-		}
-		*/
-
 		for ( segment_t* pSegment = get_first_seg( ); pSegment; pSegment = get_next_seg( pSegment->start_ea ) )
 		{
 			if ( !pSegment )
@@ -159,7 +121,6 @@ namespace Core
 				break;
 		}
 
-
 		return BADADDR;
 	}
 
@@ -172,7 +133,7 @@ namespace Core
 		auto Result = ScanPattern( Info );
 
 		if ( Result == BADADDR )
-			return Result;
+			return BADADDR;
 
 
 

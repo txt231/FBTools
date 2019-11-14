@@ -44,6 +44,9 @@ namespace Util
 				if ( ptr == BADADDR )
 					return nullptr;
 
+				if ( ptr == 0 )
+					return nullptr;
+
 				T* pData = new T( );
 
 				if ( get_bytes( pData, sizeof( T ), ptr ) == -1 )

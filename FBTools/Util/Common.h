@@ -1,15 +1,29 @@
 #pragma once
 
-#include "windows.h"
+#include <vector>
 
-namespace util
+#include <ida.hpp>
+#include <xref.hpp>
+
+
+
+namespace Util
 {
-	HMODULE GetCurrentModule( )
+	bool XRefsFrom( ea_t ea, std::vector<xrefblk_t>& out, int flags = 0 )
 	{
-		HMODULE hModule = NULL;
-		GetModuleHandleEx( GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, reinterpret_cast<LPCTSTR>( GetCurrentModule ), &hModule );
+		xrefblk_t Ref;
 
-		return hModule;
+
+		if ( !xrefblk_t_first_to( &Ref, ea, flags ) )
+			return false;
+
+		do
+		{
+			out.push_back( Ref );
+		} while ( xrefblk_t_next_to(&Ref));
+
+
+		return out.size( ) > 0;
 	}
 }
 

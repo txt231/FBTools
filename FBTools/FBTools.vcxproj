@@ -175,7 +175,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
-      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <GenerateDebugInformation>DebugFull</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -272,10 +272,14 @@
   <ItemGroup>
     <ClInclude Include="ActionBase.h" />
     <ClInclude Include="ActionManager.h" />
+    <ClInclude Include="Actions\CreateTypes.h" />
+    <ClInclude Include="Actions\FindMessageHandlers.h" />
     <ClInclude Include="Actions\FindTypeInfo.h" />
+    <ClInclude Include="Actions\RenameMessages.h" />
     <ClInclude Include="Actions\RenameTypeInfo.h" />
     <ClInclude Include="Core\Pattern.h" />
     <ClInclude Include="Core\Segment.h" />
+    <ClInclude Include="Frostbite\FBType.h" />
     <ClInclude Include="Frostbite\FrostbiteUtil.h" />
     <ClInclude Include="Frostbite\TypeinfoBase.h" />
     <ClInclude Include="Plugin.h" />
@@ -285,6 +289,7 @@
     <ClInclude Include="Sdk\2014.4\TypeInfo.h" />
     <ClInclude Include="Sdk\2014.4\ValueTypeInfo.h" />
     <ClInclude Include="Sdk\BasicTypesEnum.h" />
+    <ClInclude Include="Sdk\Hash.h" />
     <ClInclude Include="Sdk\MemberInfoFlags.h" />
     <ClInclude Include="Sdk\ModuleInfo.h" />
     <ClInclude Include="Util\Common.h" />
