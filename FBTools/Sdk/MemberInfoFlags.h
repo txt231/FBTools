@@ -22,6 +22,12 @@ namespace fb
 
 	struct MemberInfoFlags
 	{
+		MemberInfoFlags( )
+			: m_Flags(0 )
+		{
+		}
+
+
 		enum Values
 		{
 			MIFV_MemberTypeMask = 0x3,

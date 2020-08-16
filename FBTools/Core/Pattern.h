@@ -9,6 +9,9 @@
 
 #include <vector> 
 
+
+#include "../Util/Common.h"
+
 namespace Core
 {
 	namespace PatternInternal
@@ -71,8 +74,8 @@ namespace Core
 				{
 					info.m_HasMask = true;
 
-					info.m_Bytes.push_back( 0xFF );
-					info.m_Mask.push_back( 0 );
+					info.m_Bytes.push_back( 0x00 );
+					info.m_Mask.push_back( 0x00 );
 
 					if ( pFormattedSig[1] == '?' )
 						pFormattedSig += 2;
@@ -82,14 +85,11 @@ namespace Core
 				}
 
 
-				info.m_Bytes.push_back( ( CharToByte( pFormattedSig[0] ) << 4 ) + CharToByte( pFormattedSig[1] ) );
+				info.m_Bytes.push_back( ( CharToByte( pFormattedSig[0] ) << 4 ) | CharToByte( pFormattedSig[1] ) );
 				info.m_Mask.push_back( 0xFF );
 
 				pFormattedSig += 2;
 			}
-
-
-
 		}
 	}
 
@@ -143,6 +143,11 @@ namespace Core
 
 			auto RelativeSize = Info.m_RelativeEnd - Info.m_RelativeStart;
 
+
+#ifndef __EA64__
+			Result = Util::ReadEA( RelativeAddress );
+#else
+
 			if ( RelativeSize == 4 || Info.m_RelativeEnd == -1 )
 			{
 				int32_t RelativeOffset = get_dword( RelativeAddress );
@@ -161,6 +166,7 @@ namespace Core
 
 				Result = RelativeAddress + 1 + RelativeOffset;
 			}
+#endif
 		}
 
 		return Result;

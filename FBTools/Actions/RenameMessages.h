@@ -16,9 +16,6 @@
 #include "../Util/Common.h"
 #include "../Util/MemoryPointer.h"
 
-#include "../Sdk/2014.4/TypeInfo.h"
-#include "../Sdk/2014.4/ValueTypeInfo.h"
-
 namespace Actions
 {
 
@@ -26,47 +23,42 @@ namespace Actions
 		: public Action::ActionBase
 	{
 	public:
-		RenameMessages( Frostbite::FBType type )
+		RenameMessages( Frostbite::FBVersion type )
 			: ActionBase( "FBTools:RenameMessages",
 						  "Rename messages",
 						  "Renames message vtables and constructors" )
+			, m_Version( type )
 		{ }
+
+		Frostbite::FBVersion m_Version;
 
 		virtual int activate( action_activation_ctx_t* ctx ) override
 		{
-			std::vector<std::pair<ea_t, ea_t>> Types;
 
-			if ( !Frostbite::FindTypeInfos( Types ) )
+			if ( !Frostbite::ReadTypeInfos( ) )
 			{
 				msg( "[!] Found no typeinfo!?!\n" );
 				return 0;
 			}
 
-			for ( auto& TypePairs : Types )
+			for ( auto* pType : Frostbite::s_FbTypes )
 			{
-				Util::MemoryPointer<fb::TypeInfo::TypeInfoData> TypeDataRef( TypePairs.second );
+				fb::MemberInfoFlags Flags;
 
-				fb::TypeInfo::TypeInfoData* pData = TypeDataRef;
-
-				if ( !pData )
+				if ( !pType->GetFlags( Flags ) )
 					continue;
 
-				auto Type = pData->m_Flags.GetTypeCode( );
-
-
-				if ( Type != fb::BTE_ValueType )
+				if ( Flags.GetTypeCode( ) != fb::BTE_ValueType )
 					continue;
 
-				if ( pData->m_FieldCount != 0 )
+				if ( pType->GetFieldCount( ) != 0 )
 					continue;
 
 				msg( "Found possible message!\n" );
 
-				auto Name = pData->m_pName;
+				std::string NameString;
 
-				std::string NameString = Name.GetString( );
-
-				if ( NameString.size( ) == 0 )
+				if ( !pType->GetName( NameString ) )
 					continue;
 
 				if ( NameString.find( "Message" ) == std::string::npos )
@@ -76,12 +68,7 @@ namespace Actions
 				bool IsAbstract = NameString.find( "MessageBase" ) != std::string::npos;
 
 
-				Util::MemoryPointer<fb::ValueTypeInfo::ValueTypeInfoData> ValueTypeDataRef( TypeDataRef.m_Ptr );
-
-				fb::ValueTypeInfo::ValueTypeInfoData* pValueTypeInfoData = ValueTypeDataRef;
-
-				if ( !pValueTypeInfoData )
-					continue;
+				auto DefaultInstance = pType->GetDefaultInstance( );
 
 
 				if ( IsAbstract )
@@ -91,37 +78,23 @@ namespace Actions
 				}
 				else
 				{
-					msg( "[+] Message defaultvalue at 0x%p\n", pValueTypeInfoData->m_pDefaultValue );
+					msg( "[+] Message defaultvalue at 0x%p\n", DefaultInstance );
 
 
-					if ( pValueTypeInfoData->m_pDefaultValue == 0 )
+					if ( DefaultInstance == BADADDR )
 					{
 						msg( "[!] Message has no default value!?\n" );
 						continue;
 					}
 
 
-					ea_t VtableAddress = get_qword( pValueTypeInfoData->m_pDefaultValue );
+					ea_t VtableAddress = Util::ReadEA( DefaultInstance );
 
 					if ( VtableAddress == BADADDR ||
 						 VtableAddress == 0 )
 						continue;
 
-					set_name( VtableAddress, ( "??_7" + NameString + "@fb@@6B@" ).c_str( ) );
-
-					//This is standard vtable for all messages
-					{
-						ea_t Vf1 = get_qword( VtableAddress + sizeof( ea_t ) * 0 );
-
-						if ( Vf1 != 0 || Vf1 != BADADDR )
-							set_name( Vf1, ( "?GetType@" + NameString + "@fb@@EBEPBVTypeInfo@2@XZ" ).c_str( ) );
-					}
-					{
-						ea_t Vf2 = get_qword( VtableAddress + sizeof( ea_t ) * 1 );
-
-						if ( Vf2 != 0 || Vf2 != BADADDR )
-							set_name( Vf2, ( "??_G" + NameString + "@fb@@UAEPAXI@Z" ).c_str( ) );
-					}
+					RenameMessageVtable( VtableAddress, NameString );
 
 
 					bool IsNetworkableMessage = false;
@@ -202,7 +175,6 @@ namespace Actions
 						{
 							msg( "[!] Failed to find function at ref\n" );
 
-
 							//Quick fix
 							fFindGenerateClone( Ref.from - 0x4B );
 
@@ -239,7 +211,7 @@ namespace Actions
 								msg( "adr 0x%p Op %i = %s\n", i, j, String.c_str( ) );
 #endif
 
-								if ( Operand.addr != 0 && Operand.addr == pValueTypeInfoData->m_pDefaultValue )
+								if ( Operand.addr != 0 && Operand.addr == DefaultInstance )
 								{
 									msg( "[+] Found dynamic initializer for default at 0x%p\n", pFunction->start_ea );
 									set_name( pFunction->start_ea, ( "fb::_dynamic_initializer_for___default_" + NameString + "__" ).c_str( ), SN_NOCHECK );
@@ -247,7 +219,7 @@ namespace Actions
 									break;
 								}
 
-								if ( Operand.value == pValueTypeInfoData->m_Size )
+								if ( Operand.value == pType->GetSize( ) )
 								{
 									msg( "[+] Found network create at 0x%p\n", pFunction->start_ea );
 									set_name( pFunction->start_ea, ( "fb::create" + NameString ).c_str( ), SN_NOCHECK );
@@ -261,9 +233,6 @@ namespace Actions
 
 							if ( IsDefaultInitializer || IsNetworkCreateFunction )
 								break;
-
-
-
 						}
 
 						if ( IsDefaultInitializer || IsNetworkCreateFunction )
@@ -277,41 +246,10 @@ namespace Actions
 						set_name( pFunction->start_ea, ( "??0" + NameString + "@fb@@QAE@XZ" ).c_str( ), SN_NOCHECK );
 					}
 
-
-
 					if ( IsNetworkableMessage )
-					{
-						{
-							ea_t Vf = get_qword( VtableAddress + sizeof( ea_t ) * 3 );
-
-							if ( Vf != 0 || Vf != BADADDR )
-								set_name( Vf, ( "?GetNmInitiator@" + NameString + "@fb@@EBE?AW4Initiator@NetworkableMessage@2@XZ" ).c_str( ), SN_NOCHECK );
-						}
-						{
-							ea_t Vf = get_qword( VtableAddress + sizeof( ea_t ) * 7 );
-
-							if ( Vf != 0 || Vf != BADADDR )
-								set_name( Vf, ( "?GeneratedWriteTo@" + NameString + "@fb@@MBEXPAVIBitStreamWrite@2@AAVNetworkableMessageContext@2@@Z" ).c_str( ), SN_NOCHECK );
-						}
-
-						{
-							ea_t Vf = get_qword( VtableAddress + sizeof( ea_t ) * 8 );
-
-							if ( Vf != 0 || Vf != BADADDR )
-								set_name( Vf, ( "?GeneratedReadFrom@" + NameString + "@fb@@MAE_NPAVIBitStreamRead@2@AAVNetworkableMessageContext@2@@Z" ).c_str( ), SN_NOCHECK );
-						}
-
-						{
-							ea_t Vf = get_qword( VtableAddress + sizeof( ea_t ) * 9 );
-
-							if ( Vf != 0 || Vf != BADADDR )
-								set_name( Vf, ( "?GeneratedClone@" + NameString + "@fb@@EBEPAVNetworkableMessage@2@XZ" ).c_str( ), SN_NOCHECK );
-						}
-					}
+						RenameNetworkableMessageVtable( VtableAddress, NameString );
 				}
 			}
-
-
 
 			return 0;
 		}
@@ -319,9 +257,109 @@ namespace Actions
 
 		virtual action_state_t update( action_update_ctx_t* ctx ) override
 		{
-			return Frostbite::s_pFirstTypeInfo == BADADDR ? AST_DISABLE : AST_ENABLE;
+			return Frostbite::s_FbTypes.size( ) == 0 ? AST_DISABLE : AST_ENABLE;
 		}
 
+		void Fb2_RenameMessageVtable( ea_t vtableAddress, std::string& typeName )
+		{
+			{
+				ea_t Vf = Util::ReadEA( vtableAddress + sizeof( ea_t ) * 3 );
 
+				if ( Vf != 0 &&
+					 Vf != BADADDR )
+					set_name( Vf, ( "?GetNmInitiator@" + typeName + "@fb@@EBE?AW4Initiator@NetworkableMessage@2@XZ" ).c_str( ), SN_NOCHECK );
+			}
+			{
+				ea_t Vf = Util::ReadEA( vtableAddress + sizeof( ea_t ) * 6 );
+
+				if ( Vf != 0 &&
+					 Vf != BADADDR )
+					set_name( Vf, ( "?GeneratedWriteTo@" + typeName + "@fb@@MBEXPAVIBitStreamWrite@2@AAVNetworkableMessageContext@2@@Z" ).c_str( ), SN_NOCHECK );
+			}
+			{
+				ea_t Vf = Util::ReadEA( vtableAddress + sizeof( ea_t ) * 7 );
+
+				if ( Vf != 0 &&
+					 Vf != BADADDR )
+					set_name( Vf, ( "?GeneratedReadFrom@" + typeName + "@fb@@MAE_NPAVIBitStreamRead@2@AAVNetworkableMessageContext@2@@Z" ).c_str( ), SN_NOCHECK );
+			}
+			{
+				ea_t Vf = Util::ReadEA( vtableAddress + sizeof( ea_t ) * 8 );
+
+				if ( Vf != 0 &&
+					 Vf != BADADDR )
+					set_name( Vf, ( "?GeneratedClone@" + typeName + "@fb@@EBEPAVNetworkableMessage@2@XZ" ).c_str( ), SN_NOCHECK );
+			}
+		}
+
+		void Fb2013_RenameMessageVtable( ea_t vtableAddress, std::string& typeName )
+		{
+			{
+				ea_t Vf = Util::ReadEA( vtableAddress + sizeof( ea_t ) * 3 );
+
+				if ( Vf != 0 &&
+					 Vf != BADADDR )
+					set_name( Vf, ( "?GetNmInitiator@" + typeName + "@fb@@EBE?AW4Initiator@NetworkableMessage@2@XZ" ).c_str( ), SN_NOCHECK );
+			}
+			{
+				ea_t Vf = Util::ReadEA( vtableAddress + sizeof( ea_t ) * 7 );
+
+				if ( Vf != 0 &&
+					 Vf != BADADDR )
+					set_name( Vf, ( "?GeneratedWriteTo@" + typeName + "@fb@@MBEXPAVIBitStreamWrite@2@AAVNetworkableMessageContext@2@@Z" ).c_str( ), SN_NOCHECK );
+			}
+
+			{
+				ea_t Vf = Util::ReadEA( vtableAddress + sizeof( ea_t ) * 8 );
+
+				if ( Vf != 0 &&
+					 Vf != BADADDR )
+					set_name( Vf, ( "?GeneratedReadFrom@" + typeName + "@fb@@MAE_NPAVIBitStreamRead@2@AAVNetworkableMessageContext@2@@Z" ).c_str( ), SN_NOCHECK );
+			}
+
+			{
+				ea_t Vf = Util::ReadEA( vtableAddress + sizeof( ea_t ) * 9 );
+
+				if ( Vf != 0 &&
+					 Vf != BADADDR )
+					set_name( Vf, ( "?GeneratedClone@" + typeName + "@fb@@EBEPAVNetworkableMessage@2@XZ" ).c_str( ), SN_NOCHECK );
+			}
+		}
+
+		void RenameNetworkableMessageVtable( ea_t vtableAddress, std::string& typeName )
+		{
+			switch ( m_Version )
+			{
+			case Frostbite::FBT_Fb2:
+				Fb2_RenameMessageVtable( vtableAddress, typeName );
+				break;
+
+			case Frostbite::FBT_Fb2013:
+			case Frostbite::FBT_Fb2014:
+				Fb2013_RenameMessageVtable( vtableAddress, typeName );
+			}
+		}
+
+		void RenameMessageVtable( ea_t vtableAddress, std::string& typeName )
+		{
+			// Set vtable name
+			set_name( vtableAddress, ( "??_7" + typeName + "@fb@@6B@" ).c_str( ) );
+
+			// This is standard vtable for all messages
+			{
+				ea_t Vf1 = Util::ReadEA( vtableAddress + sizeof( ea_t ) * 0 );
+
+				if ( Vf1 != 0 &&
+					 Vf1 != BADADDR )
+					set_name( Vf1, ( "?GetType@" + typeName + "@fb@@EBEPBVTypeInfo@2@XZ" ).c_str( ) );
+			}
+			{
+				ea_t Vf2 = Util::ReadEA( vtableAddress + sizeof( ea_t ) * 1 );
+
+				if ( Vf2 != 0 &&
+					 Vf2 != BADADDR )
+					set_name( Vf2, ( "??_G" + typeName + "@fb@@UAEPAXI@Z" ).c_str( ) );
+			}
+		}
 	};
 }

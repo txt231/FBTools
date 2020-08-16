@@ -13,6 +13,8 @@
 #include "Actions/RenameMessages.h"
 #include "Actions/FindMessageHandlers.h"
 
+#include "Actions/DumpDefinitions.h"
+
 void RegisterMenuActions( )
 {
 	if ( !create_menu( "FBTools", "FBTools" ) )
@@ -23,11 +25,13 @@ void RegisterMenuActions( )
 
 	auto& Manager = Action::ActionManager::GetInstance( );
 
-	Manager.RegisterAction( new Actions::FindTypeInfoAction( [&]( Frostbite::FBType type, ea_t typeInfo )
+	Manager.RegisterAction( new Actions::FindTypeInfoAction( [&]( Frostbite::FBVersion type, ea_t typeInfo )
 	{
 		Manager.RegisterAction( new Actions::RenameTypeInfo( type ) );
 		Manager.RegisterAction( new Actions::RenameMessages( type ) );
 		Manager.RegisterAction( new Actions::FindMessageHandlers( type ) );
+		Manager.RegisterAction( new Actions::DumpDefinitions( type ) );
+
 	} ) );
 	
 }

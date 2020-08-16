@@ -2,9 +2,8 @@
 
 #include "TypeInfo.h"
 
-namespace fb2014_4
+namespace fb2013
 {
-
 	class FieldInfo
 		: public MemberInfo
 	{
@@ -25,13 +24,11 @@ namespace fb2014_4
 			};
 		}; //0x0018
 
-		/*
 		Util::MemoryPointer<TypeInfo> m_pDeclearingType; //0x0010 TypeInfo*
 		uint16_t m_FieldIndex; //0x0018
 		uint16_t m_AttributeMask; //0x001A
 #ifdef __EA64__
 		char _0x001C[4];
 #endif
-		*/
-	}; //0x0008
+	}; //0x0020
 }

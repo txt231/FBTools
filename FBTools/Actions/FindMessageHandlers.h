@@ -18,7 +18,7 @@ namespace Actions
 		: public Action::ActionBase
 	{
 	public:
-		FindMessageHandlers( Frostbite::FBType type )
+		FindMessageHandlers( Frostbite::FBVersion type )
 			: ActionBase( "FBTools:FindMessageHandlers",
 						  "Find Message Handlers",
 						  "Finds OnMessage functions used to handle messages" )
@@ -28,8 +28,8 @@ namespace Actions
 		struct MessageInfo
 		{
 			std::string m_Name;
-			ea_t m_pTypeInfo;
-			ea_t m_pTypeInfoData;
+			//ea_t m_pTypeInfo;
+			//ea_t m_pTypeInfoData;
 			bool m_IsAbstract;
 			uint32_t m_Hash;
 
@@ -41,39 +41,32 @@ namespace Actions
 			std::vector<MessageInfo> Messages;
 
 			{
-				std::vector<std::pair<ea_t, ea_t>> Types;
 
-				if ( !Frostbite::FindTypeInfos( Types ) )
+				if ( !Frostbite::ReadTypeInfos( ) )
 				{
 					msg( "[!] Found no typeinfo!?!\n" );
 					return 0;
 				}
 
-				for ( auto& TypePairs : Types )
+				for ( auto* pType : Frostbite::s_FbTypes )
 				{
-					Util::MemoryPointer<fb::TypeInfo::TypeInfoData> TypeDataRef( TypePairs.second );
 
-					fb::TypeInfo::TypeInfoData* pData = TypeDataRef;
+					fb::MemberInfoFlags Flags;
 
-					if ( !pData )
+					if ( !pType->GetFlags( Flags ) )
 						continue;
 
-					auto Type = pData->m_Flags.GetTypeCode( );
-
-
-					if ( Type != fb::BTE_ValueType )
+					if ( Flags.GetTypeCode( ) != fb::BTE_ValueType )
 						continue;
 
-					if ( pData->m_FieldCount != 0 )
+					if ( pType->GetFieldCount( ) != 0 )
 						continue;
 
 					msg( "Found possible message!\n" );
 
-					auto Name = pData->m_pName;
+					std::string NameString;
 
-					std::string NameString = Name.GetString( );
-
-					if ( NameString.size( ) == 0 )
+					if ( !pType->GetName( NameString ) )
 						continue;
 
 					if ( NameString.find( "Message" ) == std::string::npos )
@@ -86,8 +79,8 @@ namespace Actions
 					Messages.push_back( MessageInfo 
 										{
 											NameString,
-											TypePairs.first,
-											TypePairs.second,
+											//TypePairs.first,
+											//TypePairs.second,
 											IsAbstract,
 											fb::Hash(NameString.c_str() )
 										} );
@@ -109,9 +102,19 @@ namespace Actions
 				}
 			}
 
+			msg( "[+] Filtering handlers\n" );
 
-			msg( "[!] Filtering handlers\n" );
+			/*
+			for ( auto& Message : Messages )
+			{
+				if( Message.m_ScanResults.size( ) == 0 )
+				{ 
+					msg( "[!] Failed to find messages for [%s]!", Message.m_Name.c_str( ) );
+					msg( "Trying backup scan!" );
 
+				}
+			}
+			*/
 
 			std::map<ea_t, std::string> FunctionNames;
 
@@ -128,6 +131,7 @@ namespace Actions
 						if ( decode_insn( &Instruction, i ) == 0 )
 							continue;
 
+						// This wouldnt work on diffrent arches!
 						if ( Instruction.itype != NN_cmp )
 							continue;
 
@@ -153,27 +157,31 @@ namespace Actions
 
 				for ( auto& Result : FilteredResults )
 				{
-					Message.m_ScanResults.push_back( Result );
+					//Message.m_ScanResults.push_back( Result );
 
-					msg( "[!] Foumd onmessage for message [%s] at 0x%p\n", Message.m_Name.c_str( ), Result );
-
-
+					// Set ida comment
 					set_cmt( Result, Message.m_Name.c_str( ), true );
 
 					func_t* pFunction = get_func( Result );
 
 					if ( !pFunction )
+					{
+						msg( "[!] Found invalid function for onmessage for message [%s] at 0x%p\n", Message.m_Name.c_str( ), Result );
 						continue;
+					}
 
 					if ( FunctionNames.find( pFunction->start_ea ) == FunctionNames.end( ) )
 						FunctionNames[pFunction->start_ea] = Message.m_Name.c_str( );
 					else
-						FunctionNames[pFunction->start_ea] = FunctionNames[pFunction->start_ea] + "_" + Message.m_Name;
+						FunctionNames[pFunction->start_ea] = FunctionNames[pFunction->start_ea] + "_" + Message.m_Name; // append name
 				}
 			}
 
 			for ( auto Pair : FunctionNames )
+			{
+				msg( "[+] Message handler at 0x%p\n", Pair.first );
 				set_name( Pair.first, ( "OnMessage_" + Pair.second ).c_str( ), SN_NOCHECK | SN_FORCE );
+			}
 
 
 			//Add decompiler comments maybe?

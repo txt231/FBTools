@@ -12,7 +12,8 @@ namespace Util
 		{
 		public:
 			MemoryPointerInfo( )
-			{ }
+			{
+			}
 
 			~MemoryPointerInfo( )
 			{
@@ -21,7 +22,7 @@ namespace Util
 					if ( !Data.second.m_pData )
 						continue;
 
-					delete Data.second.m_pData;
+					free( Data.second.m_pData );
 					Data.second.m_pData = nullptr;
 				}
 
@@ -47,15 +48,15 @@ namespace Util
 				if ( ptr == 0 )
 					return nullptr;
 
-				T* pData = new T( );
+				T* pData = reinterpret_cast< T* >( malloc( sizeof( T ) ) );
 
 				if ( get_bytes( pData, sizeof( T ), ptr ) == -1 )
 				{
-					delete pData;
+					free( pData );
 					return nullptr;
 				}
 
-				m_PointerMap[ptr] = DataInfo { pData, sizeof( T ) };
+				m_PointerMap[ptr] = DataInfo{ pData, sizeof( T ) };
 
 				return pData;
 			}
@@ -77,7 +78,7 @@ namespace Util
 				if ( FindResult->second.m_Size != sizeof( T ) )
 				{
 					if ( FindResult->second.m_pData )
-						delete FindResult->second.m_pData;
+						free( FindResult->second.m_pData );
 
 					return this->CreateData<T>( ptr );
 				}
@@ -97,17 +98,27 @@ namespace Util
 	}
 
 
+
 	template <class T>
 	class MemoryPointer
 	{
 	public:
 		MemoryPointer( )
-		{ }
+		{
+		}
 
 		MemoryPointer( ea_t ptr )
 			: m_Ptr( ptr )
-		{ }
+		{
+		}
 
+		/*
+#ifdef __EA64__
+		_declspec( align( 8 ) )
+#else
+		_declspec( align( 4 ) )
+#endif
+			*/
 		ea_t m_Ptr = BADADDR; //0x0000
 
 		ea_t RawPtr( )
@@ -146,6 +157,11 @@ namespace Util
 		T* At( size_t index )
 		{
 			return Internal::MemoryPointerInfo::GetInstance( ).GetData<T>( this->m_Ptr + sizeof( T ) * index );
+		}
+
+		ea_t Address( size_t index )
+		{
+			return this->m_Ptr + sizeof( T ) * index;
 		}
 
 		T* operator []( size_t index )

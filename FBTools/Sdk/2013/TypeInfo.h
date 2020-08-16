@@ -4,7 +4,7 @@
 
 #include "../ModuleInfo.h"
 
-namespace fb2014_4
+namespace fb2013
 {
 	class TypeInfo
 		: public MemberInfo
@@ -20,10 +20,12 @@ namespace fb2014_4
 			char _0x000C[4];
 #endif
 			Util::MemoryPointer<fb::ModuleInfo> m_pModule; //0x0010 ModuleInfo*
-			uint16_t m_Alignment; //0x0018
-			uint16_t m_FieldCount; //0x001A
+			uint8_t m_Alignment; //0x0018
+			uint8_t m_FieldCount; //0x0019
 #ifdef __EA64__
-			char _0x001C[4];
+			char _0x001A[6];
+#else
+			char _0x001A[2];
 #endif
 		}; //0x0020
 

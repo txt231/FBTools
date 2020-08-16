@@ -10,59 +10,72 @@
 
 #include <struct.hpp>
 
-#include "FBType.h"
+#include "FBVersion.h"
 
-#include "../Sdk/2014.4/FieldInfo.h"
+#include "TypeFactory.h"
 
-#include "../Sdk/2014.4/ValueTypeInfo.h"
+#include "../Util/Common.h"
 
 namespace Frostbite
 {
 
 	static ea_t s_pFirstTypeInfo = BADADDR;
+	static FBVersion s_FbVersion = FBT_Invalid;
+
+	static std::vector<IFbType*> s_FbTypes;
 
 
-
-	static bool FindTypeInfosByFirstType( std::vector<std::pair<ea_t, ea_t>>& outTypeAddresses )
+	static bool ReadTypeInfosByFirstType( )
 	{
 		if ( s_pFirstTypeInfo == BADADDR )
 			return false;
 
-		ea_t Data = (ea_t )get_qword( Frostbite::s_pFirstTypeInfo );
+		ea_t Data = Util::ReadEA( Frostbite::s_pFirstTypeInfo );
 
-		Util::MemoryPointer<fb::TypeInfo> TypeRef( Data );
-
-
-
-		for ( ; TypeRef.m_Ptr, TypeRef = TypeRef.Get( )->m_pNext; )
+		while ( Data != 0 && 
+				Data != BADADDR )
 		{
-			fb::TypeInfo* pType = TypeRef.Get( );
+			auto* pType = TypeFactory::CreateType( s_FbVersion, Data );
 
-			if ( !pType )
-				break;
+			if ( pType != nullptr )
+			{
+				if ( pType->IsValid( ) )
+				{
+					s_FbTypes.push_back( pType );
+				}
+				else
+				{
+					delete pType;
+				}
+			}
 
-			outTypeAddresses.push_back( { TypeRef.m_Ptr ,pType->m_pData.m_Ptr } );
+			Data = TypeFactory::GetNextType( s_FbVersion, Data );
 		}
 
-		return outTypeAddresses.size( ) > 0;
+		return s_FbTypes.size( ) > 0;
 	}
 
-	static bool FindTypeInfosByRefrences( std::vector<std::pair<ea_t, ea_t>>& outTypeAddresses )
+	static bool ReadTypeInfosByRefrences( )
 	{
-		//TODO: FInd it somehow...
+		//TODO: Find data only somehow...
+
+
 		return false;
 	}
 
-	static bool FindTypeInfos( std::vector<std::pair<ea_t, ea_t>>& outTypeAddresses )
+	static bool ReadTypeInfos( )
 	{
+		if ( s_FbTypes.size( ) > 0 )
+			return true;
+
 		if ( s_pFirstTypeInfo != BADADDR )
-			return FindTypeInfosByFirstType( outTypeAddresses );
+			return ReadTypeInfosByFirstType( );
 		else
-			return FindTypeInfosByRefrences( outTypeAddresses );
+			return ReadTypeInfosByRefrences( );
 	}
 
-
-
+	//TODO: REDO
+	/*
 	static void CreateStructFromTypeInfo( ea_t typeData );
 	
 
@@ -242,4 +255,5 @@ namespace Frostbite
 
 		}
 	}
+	*/
 }

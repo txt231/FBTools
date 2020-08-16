@@ -2,8 +2,9 @@
 
 namespace Frostbite
 {
-	enum FBType
+	enum FBVersion
 	{
+		FBT_Invalid,
 		FBT_Fb2,
 		FBT_Fb2013,
 		FBT_Fb2014,

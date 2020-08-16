@@ -3,7 +3,7 @@
 #include "TypeInfo.h"
 #include "FieldInfo.h"
 
-namespace fb2014_4
+namespace fb2013
 {
 	class ValueTypeInfo
 		: public TypeInfo
@@ -17,6 +17,6 @@ namespace fb2014_4
 			Util::MemoryArrayPointer<FieldInfo::FieldInfoData> m_pFields; //0x0028 FieldInfo::FieldInfoData*
 		};
 
-		Util::MemoryArrayPointer<Util::MemoryArrayPointer<FieldInfo>> m_ppFields; //0x0018
+		Util::MemoryArrayPointer<Util::MemoryPointer<FieldInfo>> m_ppFields; //0x0018
 	};
 }

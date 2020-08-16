@@ -25,5 +25,14 @@ namespace Util
 
 		return out.size( ) > 0;
 	}
+
+	ea_t ReadEA( ea_t address )
+	{
+#ifdef __EA64__
+		return ( ea_t )get_qword( address );
+#else
+		return ( ea_t )get_dword( address );
+#endif
+	}
 }
 

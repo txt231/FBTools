@@ -24,7 +24,7 @@ namespace Actions
 		: public Action::ActionBase
 	{
 	public:
-		CreateTypes( Frostbite::FBType type )
+		CreateTypes( Frostbite::FBVersion type )
 			: ActionBase( "FBTools:CreateTypes",
 						  "Create Local Types",
 						  "Creates local types from valueinfos and enums" )
