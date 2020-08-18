@@ -6,12 +6,12 @@ This is a Hex-Rays IDA plugin (7.2) for Frostbite games, and is really only usef
 The plugin used IChooseYou's FBTools plugin as a base, you can find it on unknowncheats.me frostbite engine section, and maybe also wiki.
 Most stuff this plugin uses is custom, and barely has any original code from ICY left.
 <br>
-Right now it has support for:
-- 32 bit Frostbite 2(bf3)
-- 64 bit fb2013(bf4) (and probably 32 bit, but you need a sig for that)
-- 64 bit fb2014(MEC Closed Beta, bf1, early bfv probably)
-
-- 64 bit fb2018(late bfv) (maybe also anthem closed alpha, wont support release cause they removed typenames)
+Supporting:
+- [x] 32 bit Frostbite 2  | Tested: bf3
+- [x] 64 bit fb2013 | Tested: bf4 
+- [x] 64 bit fb2014 | Tested: MEC Closed Beta, bf1
+- [ ] 64 bit fb2017 | (anthem closed alpha)
+- [x] 64 bit fb2018 |(late bfv) 
 <br>
 
 maybe some more games i didnt test
