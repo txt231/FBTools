@@ -1,4 +1,4 @@
-# FBTools 3
+# FBTools
 
 This is a Hex-Rays IDA plugin (7.2) for Frostbite games, and is really only useful for people reversing frostbite games.
 <br>
