@@ -50,9 +50,9 @@ Should probably have some interface like thing instead for this.
 
 ## Installing
 
-1. Copy dll
-	a. Copy `Bin/FBTools64.dll` to ida plugin dir (for 64 bit support)
-	b. Copy `Bin/FBTools.dll` to ida plugin dir (for 32 bit support)
+1. Copy dll<br>
+	a. Copy `Bin/FBTools64.dll` to ida plugin dir (for 64 bit support)<br>
+	b. Copy `Bin/FBTools.dll` to ida plugin dir (for 32 bit support)<br>
 
 2. Run IDA!
 

@@ -39,12 +39,13 @@ namespace Actions
 		*/
 
 		// bf4
-		// 48 85 D2 75 ? 48 89 05 ? ? ? ? 
+		// 48 85 D2 75 ? 48 89 05 ? ? ? ? C3
 		{
 			Frostbite::FBT_Fb2013,
 			"48 85 D2"
 			"75 ??"
 			"48 89 05 [ ?? ?? ?? ?? ]"
+			"C3"
 		},
 
 		
@@ -84,7 +85,7 @@ namespace Actions
 	public:
 		FindTypeInfoAction( std::function<void( Frostbite::FBVersion )> callback )
 			: ActionBase( "FBTools:FindTypeInfo",
-						  "Find tTypeInfo",
+						  "Find TypeInfo",
 						  "Finds TypeInfo, and reads typeinfo into the wrapper structures" )
 			, m_Callback( callback )
 		{

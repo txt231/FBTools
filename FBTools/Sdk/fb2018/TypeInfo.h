@@ -30,7 +30,7 @@ namespace fb2018
 
 
 		Util::MemoryPointer<TypeInfo> m_pNext; //0x0008 TypeInfo*
-		uint8_t m_Md5NameHash[0x20]; //0x0010 in anthem they removed m_pName, but kept the md5 hash and the function that hashes it
+		uint8_t m_Sha1NameHash[0x20]; //0x0010
 		uint16_t m_RuntimeId; //0x0030
 		uint16_t m_Flags; //0x0032
 #ifdef __EA64__
