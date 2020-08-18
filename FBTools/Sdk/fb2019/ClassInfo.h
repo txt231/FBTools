@@ -34,14 +34,14 @@ namespace fb2019
 		uint16_t m_ClassId; //0x0038
 		uint16_t m_LastSubClassId; //0x003A
 #ifdef __EA64__
-		char _0x004C[0x4];
+		char _0x003C[0x4];
 #endif
-		Util::MemoryPointer<ClassInfo> m_pFirstDerivedClass; //0x0050 ClassInfo*
-		Util::MemoryPointer<ClassInfo> m_pNextSiblingClass; //0x0058 ClassInfo*
-		Util::MemoryArrayPointer<Util::MemoryPointer<FieldInfo>> m_ppFieldInfos; //0x0060 FieldInfo**
-		uint32_t m_TotalFieldCount; //0x0068
+		Util::MemoryPointer<ClassInfo> m_pFirstDerivedClass; //0x0040 ClassInfo*
+		Util::MemoryPointer<ClassInfo> m_pNextSiblingClass; //0x0048 ClassInfo*
+		Util::MemoryArrayPointer<Util::MemoryPointer<FieldInfo>> m_ppFieldInfos; //0x0050 FieldInfo**
+		uint32_t m_TotalFieldCount; //0x0058
 #ifdef __EA64__
-		char _0x006C[0x4];
+		char _0x005C[0x4];
 #endif
 	}; //0x0070
 }
