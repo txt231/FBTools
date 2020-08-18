@@ -83,7 +83,7 @@ namespace Frostbite
 				fb2::ClassInfo::ClassInfoData* pData = TypeDataRef;
 
 				if ( !pData )
-					return;
+					return BADADDR;
 
 				if ( pData->m_pSuper.m_Ptr == 0 )
 					return BADADDR;

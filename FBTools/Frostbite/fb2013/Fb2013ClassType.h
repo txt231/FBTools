@@ -79,17 +79,17 @@ namespace Frostbite
 				if ( !this->IsValid( ) )
 					return BADADDR;
 
-				Util::MemoryPointer<fb2018::ClassInfo::ClassInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2013::ClassInfo::ClassInfoData> TypeDataRef( m_TypeData );
 
-				fb2018::ClassInfo::ClassInfoData* pData = TypeDataRef;
+				fb2013::ClassInfo::ClassInfoData* pData = TypeDataRef;
 
 				if ( !pData )
-					return;
+					return BADADDR;
 
 				if ( pData->m_pSuper.m_Ptr == 0 )
 					return BADADDR;
 
-				return  pData->m_pSuper.m_Ptr;
+				return pData->m_pSuper.m_Ptr;
 			}
 
 			static Fb2013ClassType* CreateFromTypeInfo( ea_t typeInfo )
