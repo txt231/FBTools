@@ -24,6 +24,7 @@ namespace Frostbite
 
 	static std::vector<IFbType*> s_FbTypes;
 
+	
 
 	static bool ReadTypeInfosByFirstType( )
 	{
@@ -80,6 +81,33 @@ namespace Frostbite
 			return ReadTypeInfosByFirstType( );
 		else
 			return ReadTypeInfosByRefrences( );
+	}
+
+
+	static IFbType* GetTypeFromTypeInfoEA( ea_t typeInfo )
+	{
+		for ( auto* pType : s_FbTypes )
+		{
+			if ( pType->GetTypeInfo( ) != typeInfo )
+				continue;
+
+			return pType;
+		}
+
+		return nullptr;
+	}
+
+	static IFbType* GetTypeFromTypeDataEA( ea_t typeData )
+	{
+		for ( auto* pType : s_FbTypes )
+		{
+			if ( pType->GetTypeData( ) != typeData )
+				continue;
+
+			return pType;
+		}
+
+		return nullptr;
 	}
 
 	//TODO: REDO

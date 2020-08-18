@@ -49,12 +49,16 @@ namespace Frostbite
 				if ( !pData )
 					return;
 
-				auto TypeCode = pData->m_Flags.GetTypeCode( );
+				if ( pData->m_Flags.GetTypeCategory( ) != fb::TypeCategoryEnum::TCE_PrimitiveType )
+				{
 
-				if ( TypeCode != fb::BasicTypesEnum::BTE_Class &&
-					 TypeCode != fb::BasicTypesEnum::BTE_ValueType &&
-					 TypeCode != fb::BasicTypesEnum::BTE_Enum )
-					return;
+					auto TypeCode = pData->m_Flags.GetTypeCode( );
+
+					if ( TypeCode != fb::BasicTypesEnum::BTE_Class &&
+						 TypeCode != fb::BasicTypesEnum::BTE_ValueType &&
+						 TypeCode != fb::BasicTypesEnum::BTE_Enum )
+						return;
+				}
 
 				/*
 				std::string NameString = pData->m_pName.GetString( );
