@@ -34,5 +34,40 @@ namespace Util
 		return ( ea_t )get_dword( address );
 #endif
 	}
+
+
+	ea_t ResolvePtr( ea_t address, size_t size = 4 )
+	{
+		if ( size == 8 )
+		{
+			// Just some quick 64 bit absolute ptrs, very rare to find in compiled code
+			return ( ea_t ) get_qword( address );
+		}
+		else if ( size == 4 )
+		{
+			// 64 bit has relative ptrs, 32 bit has absolute ptrs
+#ifdef __EA64__
+			int32_t RelativeOffset = get_dword( address );
+
+			return address + 4 + RelativeOffset;
+#else
+			return Util::ReadEA( address );
+#endif
+		}
+		else if ( size == 2 )
+		{
+			int16_t RelativeOffset = get_word( address );
+
+			return address + 2 + RelativeOffset;
+		}
+		else if ( size == 1 )
+		{
+			int8_t RelativeOffset = get_byte( address );
+
+			return address + 1 + RelativeOffset;
+		}
+
+		return BADADDR;
+	}
 }
 

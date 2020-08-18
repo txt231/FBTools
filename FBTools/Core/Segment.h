@@ -1,11 +1,16 @@
 #pragma once
 
-#include <windows.h>
+//#include <windows.h>
+
+
 #include <pro.h>
 #include <segment.hpp>
 #include <bytes.hpp>
-
 #include <kernwin.hpp>
+#include <funcs.hpp>
+
+
+#include "../Util/Common.h"
 
 namespace core
 {
@@ -36,6 +41,10 @@ namespace core
 				msg( "[VMTFix] Failed to write value to address [0x%p]\n", address );
 				return false;
 			}
+
+			
+
+
 #else
 			if ( !create_data( address, dword_flag( ), 4, BADNODE ) )
 			{
@@ -50,48 +59,55 @@ namespace core
 			}
 #endif
 
+			auto Address = Util::ReadEA( address );
 
+
+			auto pSegment = getseg( Address );
+
+			if ( pSegment &&
+				 ( pSegment->perm & SEGPERM_EXEC ) )
+			{
+				add_func( Address );
+			}
 
 			return true;
 		};
 
 
-		uint32_t Fixed = 0;
+		size_t Fixed = 0;
 
-		for ( segment_t* seg = get_first_seg( ); seg; seg = get_next_seg( seg->start_ea ) )
+		for ( segment_t* pSegment = get_first_seg( ); pSegment; pSegment = get_next_seg( pSegment->start_ea ) )
 		{
-			if ( !seg )
+			if ( !pSegment )
 				break;
 
 			qstring Name;
 
-			get_segm_name( &Name, seg );
+			get_segm_name( &Name, pSegment );
 
-			if ( ( seg->perm & SEGPERM_EXEC ) /*&& !( seg->perm & SEGPERM_READ )*/ )
+			if ( ( pSegment->perm & SEGPERM_EXEC ) /*&& !( seg->perm & SEGPERM_READ )*/ )
 				continue;
 
-			msg( "[VMTFix] Scanning segment [%s] with size [0x%X]\n", Name.c_str( ), seg->size( ) );
+			msg( "[VMTFix] Scanning segment [%s] with size [0x%X]\n", Name.c_str( ), pSegment->size( ) );
 
-			if ( !( seg->perm & SEGPERM_READ ) )
+			if ( !( pSegment->perm & SEGPERM_READ ) )
 			{
 				msg( "\t[VMTFix] Segment [%s] not readable\n", Name.c_str( ) );
 			}
 
 
 
-			uint8_t* pBuffer = new uint8_t[seg->size( )]( );
-			if ( get_bytes( pBuffer, seg->size( ), seg->start_ea ) == -1 )
+			uint8_t* pBuffer = new uint8_t[pSegment->size( )]( );
+			if ( get_bytes( pBuffer, pSegment->size( ), pSegment->start_ea ) == -1 )
 			{
-				delete[] pBuffer;
-
 				//msg( "[VMTFix] Failed to get segment data for [%s]\nUsing fallback method!\n", Name.c_str( ) );
 
-				for ( ea_t address = seg->start_ea; address <= ( seg->end_ea - sizeof( ea_t ) ); address += sizeof( ea_t ) )
+				for ( ea_t address = pSegment->start_ea; address <= ( pSegment->end_ea - sizeof( ea_t ) ); address += sizeof( ea_t ) )
 				{
 #ifdef __EA64__
-					ea_t ptr = get_64bit( address );
+					ea_t ptr = get_dword( address );
 #else
-					ea_t ptr = get_32bit( address );
+					ea_t ptr = get_qword( address );
 #endif
 
 					if ( ptr >= inf.min_ea && ptr <= inf.max_ea )
@@ -111,39 +127,39 @@ namespace core
 
 				}
 
-				if ( seg == get_last_seg( ) )
-					break;
-
-				continue;
 			}
 			else
+			{
 				msg( "[VMTFix] Segment [%s] read into buffer\n", Name.c_str( ) );
 
-			ea_t SegmentEnd = seg->size( ) - sizeof( ea_t );
+				ea_t SegmentEnd = pSegment->size( ) - sizeof( ea_t );
 
-			for ( ea_t f = 0; f <= SegmentEnd; f += sizeof( ea_t ) )
-			{
-				ea_t ptr = *reinterpret_cast< ea_t* >( pBuffer + f );
-
-				if ( ptr >= inf.min_ea && ptr <= inf.max_ea )
+				for ( ea_t f = 0; f <= SegmentEnd; f += sizeof( ea_t ) )
 				{
-					ea_t realAddr = seg->start_ea + f;
+					ea_t ptr = *reinterpret_cast< ea_t* >( pBuffer + f );
 
-					if ( !fFixPointer( realAddr ) )
+					if ( ptr >= inf.min_ea && ptr <= inf.max_ea )
 					{
-						msg( "[VMTFix] Failed to write value to address [0x%p]\n", realAddr );
-						continue;
+						ea_t realAddr = pSegment->start_ea + f;
+
+						if ( !fFixPointer( realAddr ) )
+						{
+							msg( "[VMTFix] Failed to write value to address [0x%p]\n", realAddr );
+							continue;
+						}
+
+
+						Fixed++;
 					}
 
-
-					Fixed++;
 				}
 
+				
 			}
 
 			delete[] pBuffer;
 
-			if ( seg == get_last_seg( ) )
+			if ( pSegment == get_last_seg( ) )
 				break;
 		}
 

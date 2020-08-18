@@ -52,9 +52,13 @@ namespace Frostbite
 				auto FieldCount = this->GetFieldCount( );
 				for ( auto i = 0; i < FieldCount; i++ )
 				{
-					auto pFieldData = pData->m_pFields.Address( i );
+					auto* pField = new Fb2FieldType( BADADDR, pData->m_pFields.Address( i ) );
 
-					auto pField = new Fb2FieldType( BADADDR, pFieldData );
+					if ( !pField->IsValid( ) )
+					{
+						delete pField;
+						continue;
+					}
 
 					m_Fields.push_back( pField );
 				}

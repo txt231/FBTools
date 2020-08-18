@@ -13,16 +13,16 @@ Right now it has support for:
 
 - 64 bit fb2018(late bfv) (maybe also anthem closed alpha, wont support release cause they removed typenames)
 <br>
-maybe some more games i didnt test
 
+maybe some more games i didnt test
 <br>
+
 I dont like the way i did the TypeFactory, but its not that bad and works allright. Probably isnt even a factory by programming terms.<br>
 Should probably have some interface like thing instead for this.
 
 ## Some stuff to do
 
-- add a ea_t GetParent() to IFbType!
-- add some way to get fields, and add fields to class types (partially done)
+- Add dumpers
 
 ## Some Features
 - Print types to ida output
@@ -46,6 +46,15 @@ Should probably have some interface like thing instead for this.
 - [x] rename message handler functions (has an issue as of now...)
 
 </details>
+
+## Installing
+
+1. Copy dll
+	a. Copy `Bin/FBTools64.dll` to ida plugin dir (for 64 bit support)
+	b. Copy `Bin/FBTools.dll` to ida plugin dir (for 32 bit support)
+
+2. Run IDA!
+
 
 ## Compiling
 

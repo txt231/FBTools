@@ -26,16 +26,17 @@ namespace Core
 		};
 
 
-		inline uint8_t CharToByte( char Char )
+		// Stolen from some stackoverflow
+		inline uint8_t CharToByte( char value )
 		{
-			if ( Char >= '0' && Char <= '9' )
-				return Char - '0';
+			if ( value >= '0' && value <= '9' )
+				return value - '0';
 
-			if ( Char >= 'A' && Char <= 'F' )
-				return Char - 'A' + 0xA;
+			if ( value >= 'A' && value <= 'F' )
+				return value - 'A' + 0xA;
 
-			if ( Char >= 'a' && Char <= 'f' )
-				return Char - 'a' + 0xA;
+			if ( value >= 'a' && value <= 'f' )
+				return value - 'a' + 0xA;
 
 			return 0;
 		}
@@ -101,8 +102,10 @@ namespace Core
 			if ( !pSegment )
 				break;
 
-
+#ifdef _DEBUG
 			msg( "[+] Searching between 0x%p -> 0x%p | HasMask = %i\n", pSegment->start_ea, pSegment->end_ea, info.m_HasMask );
+#endif
+
 
 			auto Result = bin_search2( pSegment->start_ea,
 									   pSegment->end_ea,
@@ -143,35 +146,10 @@ namespace Core
 
 			auto RelativeSize = Info.m_RelativeEnd - Info.m_RelativeStart;
 
+			if ( Info.m_RelativeEnd == -1 )
+				RelativeSize = 4;
 
-			if ( RelativeSize == 8 )
-			{
-				// Just some quick 64 bit absolute ptrs, very rare to find in compiled code
-				Result = get_qword( RelativeAddress );
-			}
-			else if ( RelativeSize == 4 || Info.m_RelativeEnd == -1 )
-			{
-				// 64 bit has relative ptrs, 32 bit has absolute ptrs
-#ifdef __EA64__
-				int32_t RelativeOffset = get_dword( RelativeAddress );
-
-				Result = RelativeAddress + 4 + RelativeOffset;
-#else
-				Result = Util::ReadEA( RelativeAddress );
-#endif
-			}
-			else if ( RelativeSize == 2 )
-			{
-				int16_t RelativeOffset = get_word( RelativeAddress );
-
-				Result = RelativeAddress + 2 + RelativeOffset;
-			}
-			else if ( RelativeSize == 1 )
-			{
-				int8_t RelativeOffset = get_byte( RelativeAddress );
-
-				Result = RelativeAddress + 1 + RelativeOffset;
-			}
+			Result = Util::ResolvePtr( RelativeAddress, RelativeSize );
 
 		}
 

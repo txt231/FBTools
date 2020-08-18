@@ -54,7 +54,15 @@ namespace Frostbite
 				auto FieldCount = this->GetFieldCount( );
 				for ( auto i = 0; i < FieldCount; i++ )
 				{
-					m_Values.push_back( new Fb2EnumFieldType( pData->m_pFields.Address( i ) ) );
+					auto* pValue = new Fb2EnumFieldType( pData->m_pFields.Address( i ) );
+
+					if ( !pValue->IsValid( ) )
+					{
+						delete pValue;
+						continue;
+					}
+
+					m_Values.push_back( pValue );
 				}
 			}
 

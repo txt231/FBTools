@@ -32,14 +32,17 @@ namespace Frostbite
 		virtual ea_t GetModuleAddress( ) = 0;
 		virtual bool GetModuleName( std::string& ) = 0;
 
+		virtual ea_t GetParentTypeInfo( )
+		{
+			return BADADDR;
+		}
+
 		virtual ea_t GetDefaultInstance( ) = 0;
 
 		virtual int32_t GetSize( ) = 0;
-
 		virtual int32_t GetAlignment( ) = 0;
 
 		virtual int32_t GetFieldCount( ) = 0;
-
 		virtual bool GetFields( std::vector<IFbField*>& outFields )
 		{
 			return false;

@@ -19,13 +19,13 @@ void RegisterMenuActions( )
 {
 	if ( !create_menu( "FBTools", "FBTools" ) )
 	{
-		msg( "Failed to create fbtoools menu!\n" );
+		msg( "[!] Failed to create fbtoools menu!\n" );
 		return;
 	}
 
 	auto& Manager = Action::ActionManager::GetInstance( );
 
-	Manager.RegisterAction( new Actions::FindTypeInfoAction( [&]( Frostbite::FBVersion type, ea_t typeInfo )
+	Manager.RegisterAction( new Actions::FindTypeInfoAction( [&]( Frostbite::FBVersion type )
 	{
 		Manager.RegisterAction( new Actions::RenameTypeInfo( type ) );
 		Manager.RegisterAction( new Actions::RenameMessages( type ) );
@@ -41,24 +41,21 @@ void RegisterMenuActions( )
 
 bool idaapi IDAP_run( size_t arg )
 {
-	msg( "[+] Doing the stuff\n" );
+	//msg( "[+] Doing the stuff\n" );
 
-	//InitGUI( );
-
-	// msg( "[+] Unloading FBTools plugin.\n" );
-	//PLUGIN.flags |= PLUGIN_UNL;
 
 	return true;
 }
 
 void idaapi IDAP_term( void )
 {
-	msg( "[+] IDAP_term\n" );
+	//msg( "[+] IDAP_term\n" );
 	return;
 }
 
 int idaapi IDAP_init( void )
 {
+	// Can maybe remove this so it also runs in console version of ida
 	if ( !is_idaq( ) )
 		return PLUGIN_SKIP;
 

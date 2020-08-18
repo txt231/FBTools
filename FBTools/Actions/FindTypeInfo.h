@@ -82,7 +82,7 @@ namespace Actions
 		: public Action::ActionBase
 	{
 	public:
-		FindTypeInfoAction( std::function<void( Frostbite::FBVersion, ea_t )> callback )
+		FindTypeInfoAction( std::function<void( Frostbite::FBVersion )> callback )
 			: ActionBase( "FBTools:FindTypeInfo",
 						  "Find FirstTypeInfo",
 						  "Finds FirstTypeInfo so you can use other actions..." )
@@ -90,9 +90,29 @@ namespace Actions
 		{
 		}
 
-		std::function<void( Frostbite::FBVersion, ea_t )> m_Callback;
+		std::function<void( Frostbite::FBVersion )> m_Callback;
 
 		virtual int activate( action_activation_ctx_t* ctx ) override
+		{
+			if ( FindBySignature( ) )
+				return 0;
+
+			if ( FindManually( ) )
+				return 0;
+
+			msg( "[!] Couldnt find typeinfo!\n");
+			//Frostbite::ReadTypeInfos( );
+
+			return 0;
+		}
+
+
+		virtual action_state_t update( action_update_ctx_t* ctx ) override
+		{
+			return AST_ENABLE;
+		}
+
+		bool FindBySignature( )
 		{
 			for ( auto& Pair : c_FbSigs )
 			{
@@ -110,24 +130,20 @@ namespace Actions
 
 				Frostbite::ReadTypeInfos( );
 
-				m_Callback( Pair.first, Result );
+				m_Callback( Pair.first );
 
-				return 0;
+				return true;
 			}
 
-
-			msg( "[!] Couldnt find firsttypeinfo!\n");
-			Frostbite::ReadTypeInfos( );
-
-			return 0;
+			return false;
 		}
 
 
-		virtual action_state_t update( action_update_ctx_t* ctx ) override
+
+		bool FindManually( )
 		{
-			return AST_ENABLE;
+
+			return false;
 		}
-
-
 	};
 }

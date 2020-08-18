@@ -3,6 +3,12 @@
 
 #include "Fb2018Type.h"
 
+
+#include "Fb2018FieldType.h"
+
+
+#include "../../Sdk/fb2018/ClassInfo.h"
+
 namespace Frostbite
 {
 	namespace Fb2018
@@ -14,13 +20,68 @@ namespace Frostbite
 			Fb2018ClassType( ea_t typeInfo, ea_t typeData = BADADDR )
 				: Fb2018Type( typeInfo, typeData )
 			{
+				ReadFields( );
 			}
 
-
-			virtual int32_t GetFieldCount( ) override
+			~Fb2018ClassType( )
 			{
-				// Assume classes allways have 0 fields, unless some special debug version that doesnt exist in anyones hands...
-				return -1;
+				for ( auto* pField : m_Fields )
+					delete pField;
+
+				m_Fields.clear( );
+			}
+
+			std::vector<Fb2018FieldType*> m_Fields;
+
+			void ReadFields( )
+			{
+				if ( !this->IsValid( ) )
+					return;
+
+				if ( this->GetFieldCount( ) == 0 )
+					return;
+
+				Util::MemoryPointer<fb2018::ClassInfo::ClassInfoData> TypeDataRef( m_TypeData );
+
+				fb2018::ClassInfo::ClassInfoData* pData = TypeDataRef;
+
+				if ( !pData )
+					return;
+
+				if ( pData->m_pFields.m_Ptr == 0 )
+					return;
+
+				auto FieldCount = this->GetFieldCount( );
+				for ( auto i = 0; i < FieldCount; i++ )
+				{
+					auto* pField = new Fb2018FieldType( BADADDR, pData->m_pFields.Address( i ) );
+
+					if ( !pField->IsValid( ) )
+					{
+						delete pField;
+						continue;
+					}
+
+					m_Fields.push_back( pField );
+				}
+			}
+
+			virtual ea_t GetParentTypeInfo( )
+			{
+				if ( !this->IsValid( ) )
+					return BADADDR;
+
+				Util::MemoryPointer<fb2018::ClassInfo::ClassInfoData> TypeDataRef( m_TypeData );
+
+				fb2018::ClassInfo::ClassInfoData* pData = TypeDataRef;
+
+				if ( !pData )
+					return;
+
+				if( pData->m_pSuper.m_Ptr == 0)
+					return BADADDR;
+
+				return  pData->m_pSuper.m_Ptr;
 			}
 
 
