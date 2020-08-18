@@ -6,19 +6,38 @@ This is a Hex-Rays IDA plugin (7.2) for Frostbite games, and is really only usef
 The plugin used IChooseYou's FBTools plugin as a base, you can find it on unknowncheats.me frostbite engine section, and maybe also wiki.
 Most stuff this plugin uses is custom, and barely has any original code from ICY left.
 <br>
-Supporting:
-- [x] 32 bit Frostbite 2  | Tested: bf3
-- [x] 64 bit fb2013 | Tested: bf4 
-- [x] 64 bit fb2014 | Tested: MEC Closed Beta, bf1
-- [ ] 64 bit fb2017 | (anthem closed alpha)
-- [x] 64 bit fb2018 |(late bfv) 
+
+I dont like the way i did the TypeFactory, but its not that bad and works allright. Probably isnt even a factory by programming terms.<br>
+Should probably have some interface like thing instead for this.
+
+
+## Supported/Not supported:
+- [x] Frostbite 2
+	- Tested:
+		- bf3 release (32 bit)
+- [x] fb2013
+	- Tested: 
+		- bf4 (64 bit)
+	- Not tested:
+		- bf4 (32 bit)
+- [x] fb2014 
+	- Tested: 
+		- MEC Closed Beta
+		- bf1
+	- Not tested:
+		- early bfv
+		- NFS Rivals
+- [ ] fb2017 
+	- Not tested:
+		- anthem closed alpha
+- [x] fb2018 
+	- Tested: 
+		- late bfv
 <br>
 
 maybe some more games i didnt test
 <br>
 
-I dont like the way i did the TypeFactory, but its not that bad and works allright. Probably isnt even a factory by programming terms.<br>
-Should probably have some interface like thing instead for this.
 
 ## Some stuff to do
 
@@ -64,8 +83,8 @@ This should work:
 1. Load this project into VisualStudio (i use 2019 for now)
 
 2. Fix ida sdk paths in solution settings (Make sure you have right configuration and platform!)<br>
-	a. `VC++ Directories -> Include Directories`<br>
-	b. `VC++ Directories -> Library Directories` (Seems to be some extra stuff here, might be able to remove that (damn vs))
+	- `VC++ Directories -> Include Directories`<br>
+	- `VC++ Directories -> Library Directories` (Seems to be some extra stuff here, might be able to remove that (damn vs))
 
 3. Compile
 
