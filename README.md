@@ -20,17 +20,17 @@ Should probably have some interface like thing instead for this.
 		- bf4 (64 bit)
 	- Not tested:
 		- bf4 (32 bit)
-- [x] 64 bit fb2014 
+- [x] fb2014 
 	- Tested: 
 		- MEC Closed Beta
 		- bf1
 	- Not tested:
 		- early bfv
 		- NFS Rivals
-- [ ] 64 bit fb2017 
+- [ ] fb2017 
 	- Not tested:
 		- anthem closed alpha
-- [x] 64 bit fb2018 
+- [x] fb2018 
 	- Tested: 
 		- late bfv
 <br>
