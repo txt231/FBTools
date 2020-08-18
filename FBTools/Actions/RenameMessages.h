@@ -43,12 +43,12 @@ namespace Actions
 
 			for ( auto* pType : Frostbite::s_FbTypes )
 			{
-				fb::MemberInfoFlags Flags;
+				fb::BasicTypesEnum Type;
 
-				if ( !pType->GetFlags( Flags ) )
+				if ( !pType->GetType( Type ) )
 					continue;
 
-				if ( Flags.GetTypeCode( ) != fb::BTE_ValueType )
+				if ( Type != fb::BTE_ValueType )
 					continue;
 
 				if ( pType->GetFieldCount( ) != 0 )
@@ -114,6 +114,7 @@ namespace Actions
 
 						bool IsClone = false;
 
+						// Check if function xref is close to vtable address, then we can know its generateclone!
 						auto fIsGenerateClone = [&]( ea_t addr ) -> bool
 						{
 							if ( addr - VtableAddress < 0x0 )
@@ -175,7 +176,7 @@ namespace Actions
 						{
 							msg( "[!] Failed to find function at ref\n" );
 
-							//Quick fix
+							//Quick fix, not good
 							fFindGenerateClone( Ref.from - 0x4B );
 
 							continue;
@@ -190,7 +191,7 @@ namespace Actions
 						bool IsDefaultInitializer = false;
 						bool IsNetworkCreateFunction = false;
 
-						for ( auto i = Ref.from; i != pFunction->start_ea; i-- )
+						for ( auto i = Ref.from + 0x8; i != pFunction->start_ea; i-- )
 						{
 							insn_t Instruction;
 
@@ -227,8 +228,8 @@ namespace Actions
 									break;
 								}
 
-								if ( IsDefaultInitializer || IsNetworkCreateFunction )
-									break;
+								//if ( IsDefaultInitializer || IsNetworkCreateFunction )
+								//	break;
 							}
 
 							if ( IsDefaultInitializer || IsNetworkCreateFunction )

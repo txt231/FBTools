@@ -2,7 +2,7 @@
 
 #include "../../Util/MemoryPointer.h"
 
-#include "../../Sdk/Fb2/TypeInfo.h"
+#include "../../Sdk/fb2013/TypeInfo.h"
 
 
 #include "../IFbType.h"
@@ -10,25 +10,25 @@
 
 namespace Frostbite
 {
-	namespace Fb2
+	namespace Fb2013
 	{
-		class Fb2Type
+		class Fb2013Type
 			: public IFbType
 		{
 		public:
-			Fb2Type( ea_t typeInfo, ea_t typeData = BADADDR )
+			Fb2013Type( ea_t typeInfo, ea_t typeData = BADADDR )
 			{
 				ea_t TypeData = typeData;
 
 
 				auto IsValidInfo = ( typeInfo != 0 &&
-									 typeInfo != BADADDR );
+								 typeInfo != BADADDR );
 				auto IsValidData = ( typeData != 0 &&
 									 typeData != BADADDR );
-
+				
 				if ( !IsValidData && IsValidInfo )
 				{
-					Util::MemoryPointer<fb2::TypeInfo> TypeRef( typeInfo );
+					Util::MemoryPointer<fb2013::TypeInfo> TypeRef( typeInfo );
 
 					auto pTypeInfo = TypeRef.Get( );
 
@@ -42,9 +42,9 @@ namespace Frostbite
 					 TypeData == BADADDR )
 					return;
 
-				Util::MemoryPointer<fb2::TypeInfo::TypeInfoData> TypeDataRef( TypeData );
+				Util::MemoryPointer<fb2013::TypeInfo::TypeInfoData> TypeDataRef( TypeData );
 
-				fb2::TypeInfo::TypeInfoData* pData = TypeDataRef;
+				fb2013::TypeInfo::TypeInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return;
@@ -93,9 +93,9 @@ namespace Frostbite
 				if ( !this->IsValid( ) )
 					return false;
 
-				Util::MemoryPointer<fb2::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2013::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
 
-				fb2::TypeInfo::TypeInfoData* pData = TypeDataRef;
+				fb2013::TypeInfo::TypeInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return false;
@@ -117,6 +117,7 @@ namespace Frostbite
 
 				return true;
 			}
+
 
 			virtual bool GetType( fb::BasicTypesEnum& type )override
 			{
@@ -159,9 +160,9 @@ namespace Frostbite
 				if ( !this->IsValid( ) )
 					return false;
 
-				Util::MemoryPointer<fb2::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2013::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
 
-				fb2::TypeInfo::TypeInfoData* pData = TypeDataRef;
+				fb2013::TypeInfo::TypeInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return false;
@@ -171,15 +172,15 @@ namespace Frostbite
 				return true;
 			}
 
-
+			 
 			virtual ea_t GetModuleAddress( ) override
 			{
 				if ( !this->IsValid( ) )
 					return BADADDR;
 
-				Util::MemoryPointer<fb2::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2013::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
 
-				fb2::TypeInfo::TypeInfoData* pData = TypeDataRef;
+				fb2013::TypeInfo::TypeInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return BADADDR;
@@ -196,9 +197,9 @@ namespace Frostbite
 				if ( !this->IsValid( ) )
 					return false;
 
-				Util::MemoryPointer<fb2::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2013::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
 
-				fb2::TypeInfo::TypeInfoData* pData = TypeDataRef;
+				fb2013::TypeInfo::TypeInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return false;
@@ -230,9 +231,9 @@ namespace Frostbite
 				if ( !this->IsValid( ) )
 					return -1;
 
-				Util::MemoryPointer<fb2::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2013::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
 
-				fb2::TypeInfo::TypeInfoData* pData = TypeDataRef;
+				fb2013::TypeInfo::TypeInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return -1;
@@ -245,9 +246,9 @@ namespace Frostbite
 				if ( !this->IsValid( ) )
 					return 1;
 
-				Util::MemoryPointer<fb2::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2013::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
 
-				fb2::TypeInfo::TypeInfoData* pData = TypeDataRef;
+				fb2013::TypeInfo::TypeInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return 1;
@@ -259,11 +260,11 @@ namespace Frostbite
 			virtual int32_t GetFieldCount( ) override
 			{
 				if ( !this->IsValid( ) )
-					return-1;
+					return- 1;
 
-				Util::MemoryPointer<fb2::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2013::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
 
-				fb2::TypeInfo::TypeInfoData* pData = TypeDataRef;
+				fb2013::TypeInfo::TypeInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return -1;
@@ -273,22 +274,22 @@ namespace Frostbite
 
 
 
-			static Fb2Type* CreateFromTypeInfo( ea_t typeInfo )
+			static Fb2013Type* CreateFromTypeInfo( ea_t typeInfo )
 			{
 				if ( typeInfo == 0 ||
 					 typeInfo == BADADDR )
 					return nullptr;
 
-				return new Fb2Type( typeInfo );
+				return new Fb2013Type( typeInfo );
 			}
 
-			static Fb2Type* CreateFromTypeInfoData( ea_t typeInfoData )
+			static Fb2013Type* CreateFromTypeInfoData( ea_t typeInfoData )
 			{
 				if ( typeInfoData == 0 ||
 					 typeInfoData == BADADDR )
 					return nullptr;
 
-				return new Fb2Type( BADADDR, typeInfoData );
+				return new Fb2013Type( BADADDR, typeInfoData );
 			}
 		};
 	}

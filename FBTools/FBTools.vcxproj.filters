@@ -64,29 +64,11 @@
     <ClInclude Include="Frostbite\FrostbiteUtil.h">
       <Filter>Header Files\Frostbite</Filter>
     </ClInclude>
-    <ClInclude Include="Sdk\BasicTypesEnum.h">
-      <Filter>Header Files\Sdk</Filter>
-    </ClInclude>
     <ClInclude Include="Sdk\MemberInfoFlags.h">
       <Filter>Header Files\Sdk</Filter>
     </ClInclude>
-    <ClInclude Include="Sdk\2014.4\MemberInfo.h">
-      <Filter>Header Files\Sdk\2014.4</Filter>
-    </ClInclude>
-    <ClInclude Include="Sdk\2014.4\TypeInfo.h">
-      <Filter>Header Files\Sdk\2014.4</Filter>
-    </ClInclude>
     <ClInclude Include="Sdk\ModuleInfo.h">
       <Filter>Header Files\Sdk</Filter>
-    </ClInclude>
-    <ClInclude Include="Sdk\2014.4\FieldInfo.h">
-      <Filter>Header Files\Sdk\2014.4</Filter>
-    </ClInclude>
-    <ClInclude Include="Sdk\2014.4\ValueTypeInfo.h">
-      <Filter>Header Files\Sdk\2014.4</Filter>
-    </ClInclude>
-    <ClInclude Include="Sdk\2014.4\ClassInfo.h">
-      <Filter>Header Files\Sdk\2014.4</Filter>
     </ClInclude>
     <ClInclude Include="Util\MemoryPointer.h">
       <Filter>Header Files\Util</Filter>
@@ -118,28 +100,7 @@
     <ClInclude Include="Frostbite\FBVersion.h">
       <Filter>Header Files\Frostbite</Filter>
     </ClInclude>
-    <ClInclude Include="Sdk\2013\MemberInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sdk\2013\TypeInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sdk\2013\FieldInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sdk\2013\ClassInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sdk\2013\ValueTypeInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sdk\2014.4\EnumTypeInfo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Frostbite\ITypeBase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Frostbite\Dumper\IDumperHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Frostbite\Dumper\FBTDumper.h">
@@ -149,9 +110,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Actions\DumpDefinitions.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Sdk\2013\EnumTypeInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Sdk\Fb2\MemberInfo.h">
@@ -208,9 +166,111 @@
     <ClInclude Include="Frostbite\Fb2\Fb2EnumType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Notes.txt" />
+    <ClInclude Include="Frostbite\fb2013\Fb2013ClassType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\fb2013\Fb2013EnumFieldType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\fb2013\Fb2013EnumType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\fb2013\Fb2013FieldType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\fb2013\Fb2013Type.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\fb2013\Fb2013ValueType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2014.4\ClassInfo.h">
+      <Filter>Header Files\Sdk\2014.4</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2014.4\EnumTypeInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2014.4\FieldInfo.h">
+      <Filter>Header Files\Sdk\2014.4</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2014.4\MemberInfo.h">
+      <Filter>Header Files\Sdk\2014.4</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2014.4\TypeInfo.h">
+      <Filter>Header Files\Sdk\2014.4</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2014.4\ValueTypeInfo.h">
+      <Filter>Header Files\Sdk\2014.4</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2013\ClassInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2013\EnumTypeInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2013\FieldInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2013\MemberInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2013\TypeInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2013\ValueTypeInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2018\ValueTypeInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2018\ClassInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2018\EnumTypeInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2018\FieldInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2018\MemberInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2018\TypeInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\fb2018\Fb2018ClassType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\fb2018\Fb2018ValueType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\fb2018\Fb2018Type.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\fb2018\Fb2018FieldType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\fb2018\Fb2018EnumType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\fb2018\Fb2018EnumFieldType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\Dumper\IDumper.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\TypeEnums.h">
+      <Filter>Header Files\Sdk</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2018\MemberInfoFlags.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Sdk\fb2018\ActionTypeInfo.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\fb2018\Fb2018ActionType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

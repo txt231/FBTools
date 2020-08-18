@@ -4,7 +4,7 @@
 
 #include "../IFbField.h"
 
-#include "../../Sdk/2014.4/EnumTypeInfo.h"
+#include "../../Sdk/fb2014.4/EnumTypeInfo.h"
 
 #include "Fb2014_4EnumFieldType.h"
 
@@ -59,7 +59,14 @@ namespace Frostbite
 				}
 			}
 
+			virtual bool GetFields( std::vector<IFbField*>& outFields ) override
+			{
+				for ( auto* pField : m_Values )
+					outFields.push_back( pField );
 
+
+				return outFields.size( ) > 0;
+			}
 			
 
 			static Fb2014_4EnumType* CreateFromTypeInfo( ea_t typeInfo )

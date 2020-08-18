@@ -51,12 +51,12 @@ namespace Actions
 				for ( auto* pType : Frostbite::s_FbTypes )
 				{
 
-					fb::MemberInfoFlags Flags;
+					fb::BasicTypesEnum Type;
 
-					if ( !pType->GetFlags( Flags ) )
+					if ( !pType->GetType( Type ) )
 						continue;
 
-					if ( Flags.GetTypeCode( ) != fb::BTE_ValueType )
+					if ( Type != fb::BTE_ValueType )
 						continue;
 
 					if ( pType->GetFieldCount( ) != 0 )

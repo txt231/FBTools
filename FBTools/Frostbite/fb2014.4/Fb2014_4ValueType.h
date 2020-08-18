@@ -4,7 +4,7 @@
 
 #include "../IFbField.h"
 
-#include "../../Sdk/2014.4/ValueTypeInfo.h"
+#include "../../Sdk/fb2014.4/ValueTypeInfo.h"
 
 #include "Fb2014_4FieldType.h"
 
@@ -62,7 +62,14 @@ namespace Frostbite
 				}
 			}
 
+			virtual bool GetFields( std::vector<IFbField*>& outFields ) override
+			{
+				for ( auto* pField : m_Fields )
+					outFields.push_back( pField );
 
+
+				return outFields.size( ) > 0;
+			}
 			
 
 			virtual ea_t GetDefaultInstance( ) override

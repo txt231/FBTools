@@ -2,19 +2,19 @@
 
 #include "../../Util/MemoryPointer.h"
 
-#include "../../Sdk/fb2014.4/FieldInfo.h"
+#include "../../Sdk/fb2013/FieldInfo.h"
 
 #include "../IFbField.h"
 
 namespace Frostbite
 {
-	namespace Fb2014_4
+	namespace Fb2013
 	{
-		class Fb2014_4FieldType
+		class Fb2013FieldType
 			: public IFbField
 		{
 		public:
-			Fb2014_4FieldType( ea_t typeInfo, ea_t typeData = BADADDR )
+			Fb2013FieldType( ea_t typeInfo, ea_t typeData = BADADDR )
 			{
 				ea_t TypeData = typeData;
 
@@ -26,7 +26,7 @@ namespace Frostbite
 
 				if ( !IsValidData && IsValidInfo )
 				{
-					Util::MemoryPointer<fb2014_4::TypeInfo> TypeRef( typeInfo );
+					Util::MemoryPointer<fb2013::TypeInfo> TypeRef( typeInfo );
 
 					auto pTypeInfo = TypeRef.Get( );
 
@@ -40,9 +40,9 @@ namespace Frostbite
 					 TypeData == BADADDR )
 					return;
 
-				Util::MemoryPointer<fb2014_4::FieldInfo::FieldInfoData> TypeDataRef( TypeData );
+				Util::MemoryPointer<fb2013::FieldInfo::FieldInfoData> TypeDataRef( TypeData );
 
-				fb2014_4::FieldInfo::FieldInfoData* pData = TypeDataRef;
+				fb2013::FieldInfo::FieldInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return;
@@ -76,9 +76,9 @@ namespace Frostbite
 				if ( !this->IsValid( ) )
 					return false;
 
-				Util::MemoryPointer<fb2014_4::FieldInfo::FieldInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2013::FieldInfo::FieldInfoData> TypeDataRef( m_TypeData );
 
-				fb2014_4::FieldInfo::FieldInfoData* pData = TypeDataRef;
+				fb2013::FieldInfo::FieldInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return false;
@@ -137,14 +137,14 @@ namespace Frostbite
 				return true;
 			}
 
-			bool GetFlags( fb::MemberInfoFlags& flags )
+			bool GetFlags( fb::MemberInfoFlags& flags ) 
 			{
 				if ( !this->IsValid( ) )
 					return false;
 
-				Util::MemoryPointer<fb2014_4::FieldInfo::FieldInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2013::FieldInfo::FieldInfoData> TypeDataRef( m_TypeData );
 
-				fb2014_4::FieldInfo::FieldInfoData* pData = TypeDataRef;
+				fb2013::FieldInfo::FieldInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return false;
@@ -159,9 +159,9 @@ namespace Frostbite
 				if ( !this->IsValid( ) )
 					return BADADDR;
 
-				Util::MemoryPointer<fb2014_4::FieldInfo::FieldInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2013::FieldInfo::FieldInfoData> TypeDataRef( m_TypeData );
 
-				fb2014_4::FieldInfo::FieldInfoData* pData = TypeDataRef;
+				fb2013::FieldInfo::FieldInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return BADADDR;
@@ -177,9 +177,9 @@ namespace Frostbite
 				if ( !this->IsValid( ) )
 					return -1;
 
-				Util::MemoryPointer<fb2014_4::FieldInfo::FieldInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2013::FieldInfo::FieldInfoData> TypeDataRef( m_TypeData );
 
-				fb2014_4::FieldInfo::FieldInfoData* pData = TypeDataRef;
+				fb2013::FieldInfo::FieldInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return -1;

@@ -61,15 +61,13 @@ namespace Actions
 
 				msg( "[+] Found typeinfo %s\n", TypeName.c_str( ) );
 
-				fb::MemberInfoFlags Flags;
+				fb::BasicTypesEnum Type;
 
-				if ( !pType->GetFlags( Flags ) )
+				if ( !pType->GetType( Type ) )
 					continue;
 
 				std::string TypeDataName = "TypeInfoData_" + TypeName;
 				std::string TypeInfoName = "TypeInfo_" + TypeName;
-
-				auto Type = Flags.GetTypeCode( );
 
 				switch ( Type )
 				{
@@ -92,6 +90,12 @@ namespace Actions
 				case fb::BTE_Enum:
 					TypeDataName = "?c_TypeInfoData@" + TypeName + "@fb@@1UEnumTypeInfoData@EnumTypeInfo@2@B";
 					TypeInfoName = "?c_TypeInfo@" + TypeName + "@fb@@2VEnumTypeInfo@2@B";
+					break;
+
+
+				case fb::BTE_Action:
+					TypeDataName = "?c_TypeInfoData@" + TypeName + "@fb@@1UActionTypeInfoData@ActionTypeInfo@2@B";
+					TypeInfoName = "?c_TypeInfo@" + TypeName + "@fb@@2VActionTypeInfo@2@A";
 					break;
 				}
 

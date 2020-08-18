@@ -144,15 +144,21 @@ namespace Core
 			auto RelativeSize = Info.m_RelativeEnd - Info.m_RelativeStart;
 
 
-#ifndef __EA64__
-			Result = Util::ReadEA( RelativeAddress );
-#else
-
-			if ( RelativeSize == 4 || Info.m_RelativeEnd == -1 )
+			if ( RelativeSize == 8 )
 			{
+				// Just some quick 64 bit absolute ptrs, very rare to find in compiled code
+				Result = get_qword( RelativeAddress );
+			}
+			else if ( RelativeSize == 4 || Info.m_RelativeEnd == -1 )
+			{
+				// 64 bit has relative ptrs, 32 bit has absolute ptrs
+#ifdef __EA64__
 				int32_t RelativeOffset = get_dword( RelativeAddress );
 
 				Result = RelativeAddress + 4 + RelativeOffset;
+#else
+				Result = Util::ReadEA( RelativeAddress );
+#endif
 			}
 			else if ( RelativeSize == 2 )
 			{
@@ -166,7 +172,7 @@ namespace Core
 
 				Result = RelativeAddress + 1 + RelativeOffset;
 			}
-#endif
+
 		}
 
 		return Result;

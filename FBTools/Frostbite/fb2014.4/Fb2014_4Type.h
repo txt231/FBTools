@@ -2,7 +2,7 @@
 
 #include "../../Util/MemoryPointer.h"
 
-#include "../../Sdk/2014.4/TypeInfo.h"
+#include "../../Sdk/fb2014.4/TypeInfo.h"
 
 
 #include "../IFbType.h"
@@ -118,7 +118,44 @@ namespace Frostbite
 				return true;
 			}
 
-			virtual bool GetFlags( fb::MemberInfoFlags& flags ) override
+
+			virtual bool GetType( fb::BasicTypesEnum& type )override
+			{
+				fb::MemberInfoFlags Flags;
+
+				if ( !GetFlags( Flags ) )
+					return false;
+
+				type = Flags.GetTypeCode( );
+
+				return true;
+			}
+
+			virtual bool GetTypeCategory( fb::TypeCategoryEnum& typeCategory )override
+			{
+				fb::MemberInfoFlags Flags;
+
+				if ( !GetFlags( Flags ) )
+					return false;
+
+				typeCategory = Flags.GetTypeCategory( );
+
+				return true;
+			}
+
+			virtual bool GetMemberType( fb::MemberTypeEnum& memberType )override
+			{
+				fb::MemberInfoFlags Flags;
+
+				if ( !GetFlags( Flags ) )
+					return false;
+
+				memberType = Flags.GetMemberType( );
+
+				return true;
+			}
+
+			bool GetFlags( fb::MemberInfoFlags& flags ) 
 			{
 				if ( !this->IsValid( ) )
 					return false;

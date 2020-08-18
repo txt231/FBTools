@@ -2,71 +2,28 @@
 
 #include <cstdint>
 
-#include "BasicTypesEnum.h"
+#include "TypeEnums.h"
 
 namespace fb
 {
-	enum TypeCategoryEnum
+	struct MemberInfoFlagsBase
 	{
-		TCE_NotApplicable,
-		TCE_Class,
-		TCE_ValueType,
-		TCE_PrimitiveType
-	};
-
-	enum MemberTypeEnum
-	{
-		MTE_Field,
-		MTE_TypeInfo
-	};
-
-	struct MemberInfoFlags
-	{
-		MemberInfoFlags( )
-			: m_Flags(0 )
+		MemberInfoFlagsBase( )
+			: m_Flags( 0 )
 		{
 		}
 
-
-		enum Values
-		{
-			MIFV_MemberTypeMask = 0x3,
-
-			MIFV_TypeCategoryShift = 0x2,
-			MIFV_TypeCategoryMask = 0x3,
-
-			MIFV_TypeCodeShift = 0x4,
-			MIFV_TypeCodeMask = 0x1F,
-		};
-
 		enum Flags
 		{
-			MIFF_Metadata = ( 1 << 11),
-			MIFF_Homogeneous = (1 << 12),
-			MIFF_AllwaysPersist = (1 << 13),
+			MIFF_Metadata = ( 1 << 11 ),
+			MIFF_Homogeneous = ( 1 << 12 ),
+			MIFF_AllwaysPersist = ( 1 << 13 ),
 			MIFF_Exposed = ( 1 << 13 ),
 			MIFF_LayoutImmutable = ( 1 << 14 ),
 			MIFF_Blittable = ( 1 << 15 ),
 		};
 
 		uint16_t m_Flags; //0x0000
-
-
-
-		MemberTypeEnum GetMemberType( )
-		{
-			return static_cast< MemberTypeEnum >( m_Flags & Values::MIFV_MemberTypeMask );
-		}
-
-		TypeCategoryEnum GetTypeCategory( )
-		{
-			return static_cast< TypeCategoryEnum >( ( m_Flags >> Values::MIFV_TypeCategoryShift ) & Values::MIFV_TypeCategoryMask );
-		}
-
-		BasicTypesEnum GetTypeCode( )
-		{
-			return static_cast< BasicTypesEnum >( ( m_Flags >> Values::MIFV_TypeCodeShift ) & Values::MIFV_TypeCodeMask );
-		}
 
 		bool Metadata( )
 		{
@@ -99,4 +56,46 @@ namespace fb
 		}
 
 	}; //0x0002
+
+
+
+	struct MemberInfoFlags
+		: public MemberInfoFlagsBase
+	{
+		MemberInfoFlags( )
+			: MemberInfoFlagsBase( )
+		{
+		}
+
+		enum Values
+		{
+			MIFV_MemberTypeMask = 0x3,
+
+			MIFV_TypeCategoryShift = 0x2,
+			MIFV_TypeCategoryMask = 0x3, // 0x7 in fb2018
+
+			MIFV_TypeCodeShift = 0x4,
+			MIFV_TypeCodeMask = 0x1F,
+		};
+
+		MemberTypeEnum GetMemberType( )
+		{
+			return static_cast< MemberTypeEnum >( m_Flags & Values::MIFV_MemberTypeMask );
+		}
+
+		TypeCategoryEnum GetTypeCategory( )
+		{
+			return static_cast< TypeCategoryEnum >( ( m_Flags >> Values::MIFV_TypeCategoryShift ) & Values::MIFV_TypeCategoryMask );
+		}
+
+		BasicTypesEnum GetTypeCode( )
+		{
+			return static_cast< BasicTypesEnum >( ( m_Flags >> Values::MIFV_TypeCodeShift ) & Values::MIFV_TypeCodeMask );
+		}
+
+	}; //0x0002
+
+
+
+
 }

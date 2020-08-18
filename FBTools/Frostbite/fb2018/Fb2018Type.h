@@ -2,7 +2,7 @@
 
 #include "../../Util/MemoryPointer.h"
 
-#include "../../Sdk/Fb2/TypeInfo.h"
+#include "../../Sdk/fb2018/TypeInfo.h"
 
 
 #include "../IFbType.h"
@@ -10,25 +10,25 @@
 
 namespace Frostbite
 {
-	namespace Fb2
+	namespace Fb2018
 	{
-		class Fb2Type
+		class Fb2018Type
 			: public IFbType
 		{
 		public:
-			Fb2Type( ea_t typeInfo, ea_t typeData = BADADDR )
+			Fb2018Type( ea_t typeInfo, ea_t typeData = BADADDR )
 			{
 				ea_t TypeData = typeData;
 
 
 				auto IsValidInfo = ( typeInfo != 0 &&
-									 typeInfo != BADADDR );
+								 typeInfo != BADADDR );
 				auto IsValidData = ( typeData != 0 &&
 									 typeData != BADADDR );
-
+				
 				if ( !IsValidData && IsValidInfo )
 				{
-					Util::MemoryPointer<fb2::TypeInfo> TypeRef( typeInfo );
+					Util::MemoryPointer<fb2018::TypeInfo> TypeRef( typeInfo );
 
 					auto pTypeInfo = TypeRef.Get( );
 
@@ -42,9 +42,9 @@ namespace Frostbite
 					 TypeData == BADADDR )
 					return;
 
-				Util::MemoryPointer<fb2::TypeInfo::TypeInfoData> TypeDataRef( TypeData );
+				Util::MemoryPointer<fb2018::TypeInfo::TypeInfoData> TypeDataRef( TypeData );
 
-				fb2::TypeInfo::TypeInfoData* pData = TypeDataRef;
+				fb2018::TypeInfo::TypeInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return;
@@ -53,14 +53,12 @@ namespace Frostbite
 
 				if ( TypeCode != fb::BasicTypesEnum::BTE_Class &&
 					 TypeCode != fb::BasicTypesEnum::BTE_ValueType &&
-					 TypeCode != fb::BasicTypesEnum::BTE_Enum )
+					 TypeCode != fb::BasicTypesEnum::BTE_Enum &&
+					 TypeCode != fb::BasicTypesEnum::BTE_Action ) // Action support
 					return;
 
 				/*
-				std::string NameString = pData->m_pName.GetString( );
-
-				if ( NameString.size( ) == 0 )
-					return;
+				
 				*/
 
 				m_TypeData = TypeData;
@@ -93,9 +91,9 @@ namespace Frostbite
 				if ( !this->IsValid( ) )
 					return false;
 
-				Util::MemoryPointer<fb2::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2018::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
 
-				fb2::TypeInfo::TypeInfoData* pData = TypeDataRef;
+				fb2018::TypeInfo::TypeInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return false;
@@ -118,9 +116,10 @@ namespace Frostbite
 				return true;
 			}
 
+
 			virtual bool GetType( fb::BasicTypesEnum& type )override
 			{
-				fb::MemberInfoFlags Flags;
+				fb2018::MemberInfoFlags Flags;
 
 				if ( !GetFlags( Flags ) )
 					return false;
@@ -132,7 +131,7 @@ namespace Frostbite
 
 			virtual bool GetTypeCategory( fb::TypeCategoryEnum& typeCategory )override
 			{
-				fb::MemberInfoFlags Flags;
+				fb2018::MemberInfoFlags Flags;
 
 				if ( !GetFlags( Flags ) )
 					return false;
@@ -144,7 +143,7 @@ namespace Frostbite
 
 			virtual bool GetMemberType( fb::MemberTypeEnum& memberType )override
 			{
-				fb::MemberInfoFlags Flags;
+				fb2018::MemberInfoFlags Flags;
 
 				if ( !GetFlags( Flags ) )
 					return false;
@@ -154,14 +153,14 @@ namespace Frostbite
 				return true;
 			}
 
-			bool GetFlags( fb::MemberInfoFlags& flags )
+			bool GetFlags( fb2018::MemberInfoFlags& flags ) 
 			{
 				if ( !this->IsValid( ) )
 					return false;
 
-				Util::MemoryPointer<fb2::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2018::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
 
-				fb2::TypeInfo::TypeInfoData* pData = TypeDataRef;
+				fb2018::TypeInfo::TypeInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return false;
@@ -171,15 +170,15 @@ namespace Frostbite
 				return true;
 			}
 
-
+			 
 			virtual ea_t GetModuleAddress( ) override
 			{
 				if ( !this->IsValid( ) )
 					return BADADDR;
 
-				Util::MemoryPointer<fb2::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2018::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
 
-				fb2::TypeInfo::TypeInfoData* pData = TypeDataRef;
+				fb2018::TypeInfo::TypeInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return BADADDR;
@@ -196,9 +195,9 @@ namespace Frostbite
 				if ( !this->IsValid( ) )
 					return false;
 
-				Util::MemoryPointer<fb2::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2018::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
 
-				fb2::TypeInfo::TypeInfoData* pData = TypeDataRef;
+				fb2018::TypeInfo::TypeInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return false;
@@ -230,9 +229,9 @@ namespace Frostbite
 				if ( !this->IsValid( ) )
 					return -1;
 
-				Util::MemoryPointer<fb2::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2018::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
 
-				fb2::TypeInfo::TypeInfoData* pData = TypeDataRef;
+				fb2018::TypeInfo::TypeInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return -1;
@@ -245,9 +244,9 @@ namespace Frostbite
 				if ( !this->IsValid( ) )
 					return 1;
 
-				Util::MemoryPointer<fb2::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2018::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
 
-				fb2::TypeInfo::TypeInfoData* pData = TypeDataRef;
+				fb2018::TypeInfo::TypeInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return 1;
@@ -259,11 +258,11 @@ namespace Frostbite
 			virtual int32_t GetFieldCount( ) override
 			{
 				if ( !this->IsValid( ) )
-					return-1;
+					return- 1;
 
-				Util::MemoryPointer<fb2::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2018::TypeInfo::TypeInfoData> TypeDataRef( m_TypeData );
 
-				fb2::TypeInfo::TypeInfoData* pData = TypeDataRef;
+				fb2018::TypeInfo::TypeInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return -1;
@@ -273,22 +272,22 @@ namespace Frostbite
 
 
 
-			static Fb2Type* CreateFromTypeInfo( ea_t typeInfo )
+			static Fb2018Type* CreateFromTypeInfo( ea_t typeInfo )
 			{
 				if ( typeInfo == 0 ||
 					 typeInfo == BADADDR )
 					return nullptr;
 
-				return new Fb2Type( typeInfo );
+				return new Fb2018Type( typeInfo );
 			}
 
-			static Fb2Type* CreateFromTypeInfoData( ea_t typeInfoData )
+			static Fb2018Type* CreateFromTypeInfoData( ea_t typeInfoData )
 			{
 				if ( typeInfoData == 0 ||
 					 typeInfoData == BADADDR )
 					return nullptr;
 
-				return new Fb2Type( BADADDR, typeInfoData );
+				return new Fb2018Type( BADADDR, typeInfoData );
 			}
 		};
 	}

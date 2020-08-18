@@ -1,28 +1,29 @@
 #pragma once
 
-#include "Fb2Type.h"
+#include "Fb2013Type.h"
 
-#include "Fb2EnumFieldType.h"
+#include "../IFbField.h"
 
-#include "../../Sdk/Fb2/EnumTypeInfo.h"
+#include "../../Sdk/fb2013/EnumTypeInfo.h"
 
-
+#include "Fb2013EnumFieldType.h"
 
 namespace Frostbite
 {
-	namespace Fb2
+	namespace Fb2013
 	{
-		class Fb2EnumType
-			: public Fb2Type
+		class Fb2013EnumType
+			: public Fb2013Type
 		{
 		public:
-			Fb2EnumType( ea_t typeInfo, ea_t typeData = BADADDR )
-				: Fb2Type( typeInfo, typeData )
+			Fb2013EnumType( ea_t typeInfo, ea_t typeData = BADADDR )
+				: Fb2013Type( typeInfo, typeData )
 			{
+
 				ReadValues( );
 			}
 
-			~Fb2EnumType( )
+			~Fb2013EnumType( )
 			{
 				for ( auto* pField : m_Values )
 					delete pField;
@@ -30,7 +31,7 @@ namespace Frostbite
 				m_Values.clear( );
 			}
 
-			std::vector<Fb2EnumFieldType*> m_Values;
+			std::vector<Fb2013EnumFieldType*> m_Values;
 
 
 			void ReadValues( )
@@ -41,9 +42,9 @@ namespace Frostbite
 				if ( this->GetFieldCount( ) == 0 )
 					return;
 
-				Util::MemoryPointer<fb2::EnumTypeInfo::EnumTypeInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2013::EnumTypeInfo::EnumTypeInfoData> TypeDataRef( m_TypeData );
 
-				fb2::EnumTypeInfo::EnumTypeInfoData* pData = TypeDataRef;
+				fb2013::EnumTypeInfo::EnumTypeInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return;
@@ -54,7 +55,7 @@ namespace Frostbite
 				auto FieldCount = this->GetFieldCount( );
 				for ( auto i = 0; i < FieldCount; i++ )
 				{
-					m_Values.push_back( new Fb2EnumFieldType( pData->m_pFields.Address( i ) ) );
+					m_Values.push_back( new Fb2013EnumFieldType( pData->m_pFields.Address( i ) ) );
 				}
 			}
 
@@ -66,23 +67,24 @@ namespace Frostbite
 
 				return outFields.size( ) > 0;
 			}
+			
 
-			static Fb2EnumType* CreateFromTypeInfo( ea_t typeInfo )
+			static Fb2013EnumType* CreateFromTypeInfo( ea_t typeInfo )
 			{
 				if ( typeInfo == 0 ||
 					 typeInfo == BADADDR )
 					return nullptr;
 
-				return new Fb2EnumType( typeInfo );
+				return new Fb2013EnumType( typeInfo );
 			}
 
-			static Fb2EnumType* CreateFromTypeInfoData( ea_t typeInfoData )
+			static Fb2013EnumType* CreateFromTypeInfoData( ea_t typeInfoData )
 			{
 				if ( typeInfoData == 0 ||
 					 typeInfoData == BADADDR )
 					return nullptr;
 
-				return new Fb2EnumType( BADADDR, typeInfoData );
+				return new Fb2013EnumType( BADADDR, typeInfoData );
 			}
 		};
 	}

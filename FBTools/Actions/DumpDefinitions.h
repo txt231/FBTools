@@ -41,12 +41,10 @@ namespace Actions
 				if ( !pType->GetName( TypeName ) )
 					continue;
 
-				fb::MemberInfoFlags Flags;
+				fb::BasicTypesEnum Type;
 
-				if ( !pType->GetFlags( Flags ) )
+				if ( !pType->GetType( Type ) )
 					continue;
-
-				auto Type = Flags.GetTypeCode( );
 
 				switch ( Type )
 				{
@@ -60,6 +58,11 @@ namespace Actions
 
 				case fb::BTE_Enum:
 					msg( "enum %s\n", TypeName.c_str( ) );
+					break;
+
+
+				case fb::BTE_Action:
+					msg( "Action %s\n", TypeName.c_str( ) );
 					break;
 				}
 			}

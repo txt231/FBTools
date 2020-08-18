@@ -109,7 +109,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>F:\IDA pro 7.2\idasdk72\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\IDA 6.5\idasdk\lib\x86_win_vc_64;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\..\..\..\Bin\</OutDir>
+    <OutDir>$(SolutionDir)Bin\</OutDir>
     <TargetExt>.p64</TargetExt>
     <CustomBuildAfterTargets>PostBuildEvent</CustomBuildAfterTargets>
   </PropertyGroup>
@@ -117,7 +117,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>F:\IDA pro 7.2\idasdk72\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Program Files %28x86%29\IDA 6.5\idasdk\lib\x86_win_vc_64;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\..\..\..\Bin\</OutDir>
+    <OutDir>$(SolutionDir)Bin\</OutDir>
     <TargetExt>.p64</TargetExt>
     <CustomBuildAfterTargets>PostBuildEvent</CustomBuildAfterTargets>
   </PropertyGroup>
@@ -125,7 +125,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>F:\IDA pro 7.2\idasdk72\include;$(IncludePath)</IncludePath>
     <LibraryPath>F:\IDA pro 7.2\idasdk72\lib\x64_win_vc_64;$(LibraryPath)</LibraryPath>
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\..\..\..\Bin\</OutDir>
+    <OutDir>$(SolutionDir)Bin\</OutDir>
     <TargetExt>.dll</TargetExt>
     <CustomBuildAfterTargets>PostBuildEvent</CustomBuildAfterTargets>
     <TargetName>$(ProjectName)64</TargetName>
@@ -134,7 +134,7 @@
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>F:\IDA pro 7.2\idasdk72\include;$(IncludePath)</IncludePath>
     <LibraryPath>F:\IDA pro 7.2\idasdk72\lib\x64_win_vc_32;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64</LibraryPath>
-    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\..\..\..\Bin\</OutDir>
+    <OutDir>$(SolutionDir)Bin\</OutDir>
     <TargetExt>.dll</TargetExt>
     <CustomBuildAfterTargets>PostBuildEvent</CustomBuildAfterTargets>
     <TargetName>$(ProjectName)</TargetName>
@@ -280,6 +280,12 @@
     <ClInclude Include="Actions\RenameTypeInfo.h" />
     <ClInclude Include="Core\Pattern.h" />
     <ClInclude Include="Core\Segment.h" />
+    <ClInclude Include="Frostbite\fb2013\Fb2013ClassType.h" />
+    <ClInclude Include="Frostbite\fb2013\Fb2013EnumFieldType.h" />
+    <ClInclude Include="Frostbite\fb2013\Fb2013EnumType.h" />
+    <ClInclude Include="Frostbite\fb2013\Fb2013FieldType.h" />
+    <ClInclude Include="Frostbite\fb2013\Fb2013Type.h" />
+    <ClInclude Include="Frostbite\fb2013\Fb2013ValueType.h" />
     <ClInclude Include="Frostbite\fb2014.4\Fb2014_4ClassType.h" />
     <ClInclude Include="Frostbite\fb2014.4\Fb2014_4EnumFieldType.h" />
     <ClInclude Include="Frostbite\fb2014.4\Fb2014_4EnumType.h" />
@@ -288,7 +294,14 @@
     <ClInclude Include="Frostbite\fb2014.4\Fb2014_4ValueType.h" />
     <ClInclude Include="Frostbite\Dumper\CppDumper.h" />
     <ClInclude Include="Frostbite\Dumper\FBTDumper.h" />
-    <ClInclude Include="Frostbite\Dumper\IDumperHandler.h" />
+    <ClInclude Include="Frostbite\Dumper\IDumper.h" />
+    <ClInclude Include="Frostbite\fb2018\Fb2018ActionType.h" />
+    <ClInclude Include="Frostbite\fb2018\Fb2018ClassType.h" />
+    <ClInclude Include="Frostbite\fb2018\Fb2018EnumFieldType.h" />
+    <ClInclude Include="Frostbite\fb2018\Fb2018EnumType.h" />
+    <ClInclude Include="Frostbite\fb2018\Fb2018FieldType.h" />
+    <ClInclude Include="Frostbite\fb2018\Fb2018Type.h" />
+    <ClInclude Include="Frostbite\fb2018\Fb2018ValueType.h" />
     <ClInclude Include="Frostbite\Fb2\Fb2ClassType.h" />
     <ClInclude Include="Frostbite\Fb2\Fb2EnumFieldType.h" />
     <ClInclude Include="Frostbite\Fb2\Fb2EnumType.h" />
@@ -302,19 +315,27 @@
     <ClInclude Include="Frostbite\ITypeBase.h" />
     <ClInclude Include="Frostbite\TypeFactory.h" />
     <ClInclude Include="Plugin.h" />
-    <ClInclude Include="Sdk\2013\ClassInfo.h" />
-    <ClInclude Include="Sdk\2013\EnumTypeInfo.h" />
-    <ClInclude Include="Sdk\2013\FieldInfo.h" />
-    <ClInclude Include="Sdk\2013\MemberInfo.h" />
-    <ClInclude Include="Sdk\2013\TypeInfo.h" />
-    <ClInclude Include="Sdk\2013\ValueTypeInfo.h" />
-    <ClInclude Include="Sdk\2014.4\ClassInfo.h" />
-    <ClInclude Include="Sdk\2014.4\EnumTypeInfo.h" />
-    <ClInclude Include="Sdk\2014.4\FieldInfo.h" />
-    <ClInclude Include="Sdk\2014.4\MemberInfo.h" />
-    <ClInclude Include="Sdk\2014.4\TypeInfo.h" />
-    <ClInclude Include="Sdk\2014.4\ValueTypeInfo.h" />
-    <ClInclude Include="Sdk\BasicTypesEnum.h" />
+    <ClInclude Include="Sdk\fb2013\ClassInfo.h" />
+    <ClInclude Include="Sdk\fb2013\EnumTypeInfo.h" />
+    <ClInclude Include="Sdk\fb2013\FieldInfo.h" />
+    <ClInclude Include="Sdk\fb2013\MemberInfo.h" />
+    <ClInclude Include="Sdk\fb2013\TypeInfo.h" />
+    <ClInclude Include="Sdk\fb2013\ValueTypeInfo.h" />
+    <ClInclude Include="Sdk\fb2014.4\ClassInfo.h" />
+    <ClInclude Include="Sdk\fb2014.4\EnumTypeInfo.h" />
+    <ClInclude Include="Sdk\fb2014.4\FieldInfo.h" />
+    <ClInclude Include="Sdk\fb2014.4\MemberInfo.h" />
+    <ClInclude Include="Sdk\fb2014.4\TypeInfo.h" />
+    <ClInclude Include="Sdk\fb2014.4\ValueTypeInfo.h" />
+    <ClInclude Include="Sdk\fb2018\ActionTypeInfo.h" />
+    <ClInclude Include="Sdk\fb2018\MemberInfoFlags.h" />
+    <ClInclude Include="Sdk\TypeEnums.h" />
+    <ClInclude Include="Sdk\fb2018\ClassInfo.h" />
+    <ClInclude Include="Sdk\fb2018\EnumTypeInfo.h" />
+    <ClInclude Include="Sdk\fb2018\FieldInfo.h" />
+    <ClInclude Include="Sdk\fb2018\MemberInfo.h" />
+    <ClInclude Include="Sdk\fb2018\TypeInfo.h" />
+    <ClInclude Include="Sdk\fb2018\ValueTypeInfo.h" />
     <ClInclude Include="Sdk\Fb2\ClassInfo.h" />
     <ClInclude Include="Sdk\Fb2\EnumTypeInfo.h" />
     <ClInclude Include="Sdk\Fb2\FieldInfo.h" />
@@ -326,9 +347,6 @@
     <ClInclude Include="Sdk\ModuleInfo.h" />
     <ClInclude Include="Util\Common.h" />
     <ClInclude Include="Util\MemoryPointer.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="Notes.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

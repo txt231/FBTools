@@ -30,6 +30,12 @@ namespace Frostbite
 		if ( s_pFirstTypeInfo == BADADDR )
 			return false;
 
+		//TODO: Delete
+
+		for ( auto* pInstance : s_FbTypes )
+			delete pInstance;
+		s_FbTypes.clear( );
+
 		ea_t Data = Util::ReadEA( Frostbite::s_pFirstTypeInfo );
 
 		while ( Data != 0 && 
@@ -58,6 +64,8 @@ namespace Frostbite
 	static bool ReadTypeInfosByRefrences( )
 	{
 		//TODO: Find data only somehow...
+
+		// Can be useful for xbox, ps3 and undumped pc binaries(server files for example)
 
 
 		return false;

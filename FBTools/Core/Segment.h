@@ -74,7 +74,7 @@ namespace core
 
 			if ( !( seg->perm & SEGPERM_READ ) )
 			{
-				msg( "[VMTFix] Segment [%s] not readable\n", Name.c_str( ) );
+				msg( "\t[VMTFix] Segment [%s] not readable\n", Name.c_str( ) );
 			}
 
 

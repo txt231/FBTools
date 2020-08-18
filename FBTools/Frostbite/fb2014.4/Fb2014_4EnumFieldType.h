@@ -2,7 +2,7 @@
 
 #include "../../Util/MemoryPointer.h"
 
-#include "../../Sdk/2014.4/EnumTypeInfo.h"
+#include "../../Sdk/fb2014.4/EnumTypeInfo.h"
 
 #include "Fb2014_4FieldType.h"
 

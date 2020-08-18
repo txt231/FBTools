@@ -2,6 +2,25 @@
 
 namespace fb
 {
+	
+	enum TypeCategoryEnum
+	{
+		TCE_NotApplicable,
+		TCE_Class,
+		TCE_ValueType,
+		TCE_PrimitiveType,
+		TCE_ArrayType,
+		TCE_EnumType,
+		TCE_ActionType,
+	};
+
+	enum MemberTypeEnum
+	{
+		MTE_Field,
+		MTE_TypeInfo
+	};
+
+
 	enum BasicTypesEnum
 	{
 		BTE_Void,
@@ -28,6 +47,11 @@ namespace fb
 		BTE_Guid,
 		BTE_SHA1,
 		BTE_ResourceRef,
+
+		// fb2018 or 2016/2017 additions?
+		BTE_Action, //24
+		BTE_TypeRef, //25
+		BTE_BoxedValueRef, //26
 		BTECount
 	};
 
@@ -83,6 +107,15 @@ namespace fb
 				return "BTE_SHA1";
 			case BTE_ResourceRef:
 				return "BTE_ResourceRef";
+
+
+			case BTE_Action:
+				return "BTE_Action";
+			case BTE_TypeRef:
+				return "BTE_TypeRef";
+			case BTE_BoxedValueRef:
+				return "BTE_BoxedValueRef";
+
 
 			default:
 				return "Unknown BasicTypesEnum value!";

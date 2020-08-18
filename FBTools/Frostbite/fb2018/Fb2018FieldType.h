@@ -2,19 +2,19 @@
 
 #include "../../Util/MemoryPointer.h"
 
-#include "../../Sdk/fb2014.4/FieldInfo.h"
+#include "../../Sdk/fb2018/FieldInfo.h"
 
 #include "../IFbField.h"
 
 namespace Frostbite
 {
-	namespace Fb2014_4
+	namespace Fb2018
 	{
-		class Fb2014_4FieldType
+		class Fb2018FieldType
 			: public IFbField
 		{
 		public:
-			Fb2014_4FieldType( ea_t typeInfo, ea_t typeData = BADADDR )
+			Fb2018FieldType( ea_t typeInfo, ea_t typeData = BADADDR )
 			{
 				ea_t TypeData = typeData;
 
@@ -26,7 +26,7 @@ namespace Frostbite
 
 				if ( !IsValidData && IsValidInfo )
 				{
-					Util::MemoryPointer<fb2014_4::TypeInfo> TypeRef( typeInfo );
+					Util::MemoryPointer<fb2018::TypeInfo> TypeRef( typeInfo );
 
 					auto pTypeInfo = TypeRef.Get( );
 
@@ -40,9 +40,9 @@ namespace Frostbite
 					 TypeData == BADADDR )
 					return;
 
-				Util::MemoryPointer<fb2014_4::FieldInfo::FieldInfoData> TypeDataRef( TypeData );
+				Util::MemoryPointer<fb2018::FieldInfo::FieldInfoData> TypeDataRef( TypeData );
 
-				fb2014_4::FieldInfo::FieldInfoData* pData = TypeDataRef;
+				fb2018::FieldInfo::FieldInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return;
@@ -76,9 +76,9 @@ namespace Frostbite
 				if ( !this->IsValid( ) )
 					return false;
 
-				Util::MemoryPointer<fb2014_4::FieldInfo::FieldInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2018::FieldInfo::FieldInfoData> TypeDataRef( m_TypeData );
 
-				fb2014_4::FieldInfo::FieldInfoData* pData = TypeDataRef;
+				fb2018::FieldInfo::FieldInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return false;
@@ -103,7 +103,7 @@ namespace Frostbite
 
 			virtual bool GetType( fb::BasicTypesEnum& type )override
 			{
-				fb::MemberInfoFlags Flags;
+				fb2018::MemberInfoFlags Flags;
 
 				if ( !GetFlags( Flags ) )
 					return false;
@@ -115,7 +115,7 @@ namespace Frostbite
 
 			virtual bool GetTypeCategory( fb::TypeCategoryEnum& typeCategory )override
 			{
-				fb::MemberInfoFlags Flags;
+				fb2018::MemberInfoFlags Flags;
 
 				if ( !GetFlags( Flags ) )
 					return false;
@@ -127,7 +127,7 @@ namespace Frostbite
 
 			virtual bool GetMemberType( fb::MemberTypeEnum& memberType )override
 			{
-				fb::MemberInfoFlags Flags;
+				fb2018::MemberInfoFlags Flags;
 
 				if ( !GetFlags( Flags ) )
 					return false;
@@ -137,14 +137,14 @@ namespace Frostbite
 				return true;
 			}
 
-			bool GetFlags( fb::MemberInfoFlags& flags )
+			bool GetFlags( fb2018::MemberInfoFlags& flags )
 			{
 				if ( !this->IsValid( ) )
 					return false;
 
-				Util::MemoryPointer<fb2014_4::FieldInfo::FieldInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2018::FieldInfo::FieldInfoData> TypeDataRef( m_TypeData );
 
-				fb2014_4::FieldInfo::FieldInfoData* pData = TypeDataRef;
+				fb2018::FieldInfo::FieldInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return false;
@@ -159,9 +159,9 @@ namespace Frostbite
 				if ( !this->IsValid( ) )
 					return BADADDR;
 
-				Util::MemoryPointer<fb2014_4::FieldInfo::FieldInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2018::FieldInfo::FieldInfoData> TypeDataRef( m_TypeData );
 
-				fb2014_4::FieldInfo::FieldInfoData* pData = TypeDataRef;
+				fb2018::FieldInfo::FieldInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return BADADDR;
@@ -177,9 +177,9 @@ namespace Frostbite
 				if ( !this->IsValid( ) )
 					return -1;
 
-				Util::MemoryPointer<fb2014_4::FieldInfo::FieldInfoData> TypeDataRef( m_TypeData );
+				Util::MemoryPointer<fb2018::FieldInfo::FieldInfoData> TypeDataRef( m_TypeData );
 
-				fb2014_4::FieldInfo::FieldInfoData* pData = TypeDataRef;
+				fb2018::FieldInfo::FieldInfoData* pData = TypeDataRef;
 
 				if ( !pData )
 					return -1;
