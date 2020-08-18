@@ -84,8 +84,8 @@ namespace Actions
 	public:
 		FindTypeInfoAction( std::function<void( Frostbite::FBVersion )> callback )
 			: ActionBase( "FBTools:FindTypeInfo",
-						  "Find FirstTypeInfo",
-						  "Finds FirstTypeInfo so you can use other actions..." )
+						  "Find tTypeInfo",
+						  "Finds TypeInfo, and reads typeinfo into the wrapper structures" )
 			, m_Callback( callback )
 		{
 		}

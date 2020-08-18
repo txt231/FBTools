@@ -23,6 +23,7 @@ Should probably have some interface like thing instead for this.
 ## Some stuff to do
 
 - Add dumpers
+- Finish ida struct stuff (`Actions/CreateTypes.h`)
 
 ## Some Features
 - Print types to ida output
@@ -67,6 +68,26 @@ This should work:
 	b. `VC++ Directories -> Library Directories` (Seems to be some extra stuff here, might be able to remove that (damn vs))
 
 3. Compile
+
+## Usage
+
+In the toolbar you will have a new entry "FBTools"
+
+!["image showing it"](https://i.imgur.com/h8moMi8.png)
+
+
+once typeinfo is found, more options are aded in this submenu!
+
+<br>
+
+### Credits:
+- jd62 (some fb2018 stuff)
+- ICY
+- Reunion (bf4 sdk)
+- Some guy on uc for ptr fix code (not used)
+
+Also credits to anyone else involed i guess
+
 #### Authors:
 - txt 
 - ICY (used as a base)

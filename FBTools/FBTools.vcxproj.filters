@@ -271,6 +271,18 @@
     <ClInclude Include="Frostbite\fb2018\Fb2018ActionType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Frostbite\Fb2\Fb2PrimitiveType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\fb2013\Fb2013PrimitiveType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\fb2018\Fb2018PrimitiveType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Frostbite\fb2014.4\Fb2014_4PrimitiveType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="README.md" />

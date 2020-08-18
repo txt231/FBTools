@@ -9,16 +9,19 @@
 #include "Fb2/Fb2ClassType.h"
 #include "Fb2/Fb2ValueType.h"
 #include "Fb2/Fb2EnumType.h"
+#include "Fb2/Fb2PrimitiveType.h"
 
 #include "fb2013/Fb2013Type.h"
 #include "fb2013/Fb2013ClassType.h"
 #include "fb2013/Fb2013ValueType.h"
 #include "fb2013/Fb2013EnumType.h"
+#include "fb2013/Fb2013PrimitiveType.h"
 
 #include "fb2014.4/Fb2014_4Type.h"
 #include "fb2014.4/Fb2014_4ClassType.h"
 #include "fb2014.4/Fb2014_4ValueType.h"
 #include "fb2014.4/Fb2014_4EnumType.h"
+#include "fb2014.4/Fb2014_4PrimitiveType.h"
 
 
 #include "fb2018/Fb2018Type.h"
@@ -26,6 +29,7 @@
 #include "fb2018/Fb2018ValueType.h"
 #include "fb2018/Fb2018EnumType.h"
 #include "fb2018/Fb2018ActionType.h"
+#include "fb2018/Fb2018PrimitiveType.h"
 
 namespace Frostbite
 {
@@ -43,6 +47,16 @@ namespace Frostbite
 			{
 				delete pTempType;
 				return nullptr;
+			}
+
+			fb::TypeCategoryEnum TypeCategory;
+
+			if ( pTempType->GetTypeCategory( TypeCategory ) &&
+				 TypeCategory == fb::TCE_PrimitiveType )
+			{
+				delete pTempType;
+
+				return Fb2::Fb2PrimitiveType::CreateFromTypeInfo( typeInfo );
 			}
 
 			fb::BasicTypesEnum TypeCode;
@@ -82,6 +96,16 @@ namespace Frostbite
 			{
 				delete pTempType;
 				return nullptr;
+			}
+
+			fb::TypeCategoryEnum TypeCategory;
+
+			if ( pTempType->GetTypeCategory( TypeCategory ) &&
+				 TypeCategory == fb::TCE_PrimitiveType )
+			{
+				delete pTempType;
+
+				return Fb2013::Fb2013PrimitiveType::CreateFromTypeInfo( typeInfo );
 			}
 
 			fb::BasicTypesEnum TypeCode;
@@ -124,6 +148,16 @@ namespace Frostbite
 				return nullptr;
 			}
 
+			fb::TypeCategoryEnum TypeCategory;
+
+			if ( pTempType->GetTypeCategory( TypeCategory ) &&
+				 TypeCategory == fb::TCE_PrimitiveType )
+			{
+				delete pTempType;
+
+				return Fb2014_4::Fb2014_4PrimitiveType::CreateFromTypeInfo( typeInfo );
+			}
+
 			fb::BasicTypesEnum TypeCode;
 
 			if ( !pTempType->GetType( TypeCode ) )
@@ -162,6 +196,17 @@ namespace Frostbite
 				delete pTempType;
 				return nullptr;
 			}
+
+			fb::TypeCategoryEnum TypeCategory;
+
+			if ( pTempType->GetTypeCategory( TypeCategory ) &&
+				 TypeCategory == fb::TCE_PrimitiveType)
+			{
+				delete pTempType;
+
+				return Fb2018::Fb2018PrimitiveType::CreateFromTypeInfo( typeInfo );
+			}
+
 
 			fb::BasicTypesEnum TypeCode;
 

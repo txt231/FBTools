@@ -26,6 +26,16 @@ namespace Util
 		return out.size( ) > 0;
 	}
 
+
+	uint32_t PtrFlag( )
+	{
+#ifdef __EA64__
+		return qword_flag( );
+#else
+		return dword_flag( );
+#endif
+	}
+
 	ea_t ReadEA( ea_t address )
 	{
 #ifdef __EA64__
